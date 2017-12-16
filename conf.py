@@ -32,6 +32,9 @@
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 
+import os, sys
+sys.path.insert(0, os.path.abspath("../")) # Important
+
 extensions = ['sphinx.ext.mathjax',
     'sphinx.ext.githubpages']
 
