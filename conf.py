@@ -121,21 +121,16 @@ htmlhelp_basename = 'totem_oopdoc'
 # -- Options for LaTeX output ---------------------------------------------
 
 latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    #
-    # 'papersize': 'letterpaper',
-
-    # The font size ('10pt', '11pt' or '12pt').
-    #
-    # 'pointsize': '10pt',
-
-    # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
-
-    # Latex figure (float) alignment
-    #
-    # 'figure_align': 'htbp',
+# Additional stuff for the LaTeX preamble.
+'preamble': '''
+\usepackage{xeCJK}
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\setCJKmainfont[BoldFont=SimHei, ItalicFont=KaiTi_GB2312]{SimSun}
+\setCJKmonofont[Scale=0.9]{KaiTi_GB2312}
+\setCJKfamilyfont{song}[BoldFont=SimSun]{SimSun}
+\setCJKfamilyfont{sf}[BoldFont=SimSun]{SimSun}
+''',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
