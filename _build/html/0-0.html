@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>写在前面 &#8212; totem_oop  documentation</title>
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          totem_oop</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">写在前面</a><ul>
+<li><a class="reference internal" href="#object-oriented-programming">什么是”面向对象”(Object-oriented programming)?</a></li>
+<li><a class="reference internal" href="#id2">关于这份“教程”</a><ul>
+<li><a class="reference internal" href="#id3">这份教程的思路</a></li>
+<li><a class="reference internal" href="#id4">这份教程的目的</a></li>
+<li><a class="reference internal" href="#id5">一些约定和提醒</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="_sources/0-0.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary">
+<form action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-9 content">
+      
+  <div class="section" id="id1">
+<h1>写在前面<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="object-oriented-programming">
+<h2>什么是”面向对象”(Object-oriented programming)?<a class="headerlink" href="#object-oriented-programming" title="Permalink to this headline">¶</a></h2>
+<p>这里引用一下<a class="reference external" href="https://en.wikipedia.org/wiki/Object-oriented_programming">维基百科(en)</a></p>
+<blockquote>
+<div>Object-oriented programming (OOP) is a programming paradigm based on
+the concept of “objects”, which may contain data, in the form of
+fields, often known as attributes; and code, in the form of
+procedures, often known as methods. A feature of objects is that an
+object’s procedures can access and often modify the data fields of
+the object with which they are associated (objects have a notion of
+“this” or “self”). In OOP, computer programs are designed by making
+them out of objects that interact with one another. There is
+significant diversity of OOP languages, but the most popular ones
+are class-based, meaning that objects are instances of classes,
+which typically also determine their type.</div></blockquote>
+<p>然后是我的垃圾翻译</p>
+<blockquote>
+<div>面向对象编程是一种基于“对象”的编程范式。对象可以包括数据和“代码”。对象中的数据通常叫做属性(attribute)，对象中的“代码”也被叫做方法(method)。对象的一个特点：方法可以存取属性，并且常常能变更属性。一个对象的数据属性是关联在一起的【对象有“这个”(this)或者“自我”(self)的概念】。在OOP中，计算机程序根据一个个对象的一个个相互作用来设计。现在各种各样的OOP编程语言，但是以类(class)为基础的是最受欢迎的。以类为基础意味着对象是各种类的实例(instance)，通常也决定了他们的类型。</div></blockquote>
+<p>注:
+上面提到的所谓“代码”，我个人认为应该称之为“函数”比较合适；关于”this“，我们以后会讨论（self是python等其他语言的事233）。</p>
+<p>由于C++也是上面提到的以类为基础的语言，所以我们学习面向对象必然要围绕着类展开。</p>
+</div>
+<div class="section" id="id2">
+<h2>关于这份“教程”<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>这份所谓教程其实称不上是教程，只是一份比较详细的介绍。学习面向对象编程靠这份教程是不够的，还需要你们自己去查找资源，更需要你们去亲自去实践。</p>
+<div class="section" id="id3">
+<h3>这份教程的思路<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>如果有大佬看过C++ Primer，大概会觉得目录特别眼熟——没错，就是按着C++
+Primer来的（因为我太弱了，不知道怎么组织各种概念）。</p>
+<p>还有就是这份教程大概会高频引用英文维基、各种博客、各种网站。如果是英文网站，我大概会给翻译（但是不排除我过后懒得翻译或者不会翻译，直接放原文、使用机翻等等）</p>
+</div>
+<div class="section" id="id4">
+<h3>这份教程的目的<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>再次强调，这份教程的目的是帮助社员们自学，从而快点开始搞项目。这份教程不是教程，更不是说明书/文档，算是介绍还行。</p>
+</div>
+<div class="section" id="id5">
+<h3>一些约定和提醒<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>代码风格遵照谷歌</li>
+<li>幻灯片格式可能是.pdf，也可能是.ppt（不排除我使用开源的文件格式)。ppt的好处在于文字的呈现是有先后有层次的，如果觉得看ppt浪费时间，我也会上传markdown格式的(.md)</li>
+<li>最好要实践一下</li>
+<li>不要忽视英文的重要性，特别是英文术语的重要性</li>
+<li>我不可能提到每一个细节、每一个坑</li>
+<li>本系列采用CC-BY-NC-SA 3.0
+CN进行授权，转载请注明出处，禁止用于商业用途，版权归作者所有。</li>
+<li>编译器默认使用gcc</li>
+</ol>
+<p>🔚</p>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2017, segmentation fault.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

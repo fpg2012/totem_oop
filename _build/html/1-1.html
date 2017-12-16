@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>面向对象初步 &#8212; totem_oop  documentation</title>
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          totem_oop</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">面向对象初步</a><ul>
+<li><a class="reference internal" href="#id2">定义和使用类/结构体</a><ul>
+<li><a class="reference internal" href="#id3">关于类和结构体声明和定义的位置</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">构造函数和析构函数初探</a><ul>
+<li><a class="reference internal" href="#id5">构造函数</a></li>
+<li><a class="reference internal" href="#id6">拷贝构造函数</a></li>
+<li><a class="reference internal" href="#id7">析构函数</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id8">访问控制与友元</a><ul>
+<li><a class="reference internal" href="#id9">访问控制</a></li>
+<li><a class="reference internal" href="#id10">友元</a></li>
+<li><a class="reference internal" href="#id11">题外话：封装的好处</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="_sources/1-1.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary">
+<form action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-9 content">
+      
+  <div class="section" id="id1">
+<h1>面向对象初步<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">这部分是基础的面向对象，私以为是最重要的部分。</p>
+</div>
+<div class="section" id="id2">
+<h2>定义和使用类/结构体<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>在讲定义和使用前，我先按照我的理解解释一下为什么要有类(class)和结构体(struct)。
+假设你正在写一个学生管理程序，每个学生都有自己的姓名、性别、籍贯、电话号码、历次的考试成绩……一堆东西，于是你的代码写起来会是这个样子的：</p>
+<div class="code c++ highlight-default"><div class="highlight"><pre><span></span>// 只展示有用的部分
+
+// 学生最大数量
+constexpr int kMax = 10000;
+// 姓名，电话和籍贯
+std::vector&lt;std::string&gt; name, tel, birthplace;
+// 历次考试成绩
+std::vector&lt;std::vector&lt;double&gt; &gt; results;
+// 性别，不要使用vector&lt;bool&gt;，这是个坑！vector&lt;bool&gt;不是标准库容器，详情自行搜索
+bool sex[kMax];
+
+// 输出第i个学生的名字等信息
+printf(&quot;姓名: %s\n电话: %s\n籍贯: %s&quot;, name[i].c_str(), tel[i].c_str(), birthplace[i].c_str());
+</pre></div>
+</div>
+<p>这样写似乎能够应付只是简单存储的情况。但是，如果你要按照名字字典序给学生们排序，那就很蛋疼了（并不是做不到，而是没有必要那样做）。</p>
+<p>于是，出现了结构体来应付这种情况，上面的代码可以写成下面那样</p>
+<div class="code c++ highlight-default"><div class="highlight"><pre><span></span>// 使用struct关键字定义一个Student结构体，这个Student是我们自己定义的类型
+// 强调！struct后面的分号一定不能漏！！！
+struct Student {
+  std::string name, tel, birthplace;
+  std::vector&lt;double&gt; results;
+  bool sex;
+}; // ←_← 就是这个分号
+
+std::vector&lt;Student&gt; students;
+
+// 跟前面一样
+printf(&quot;姓名: %s\n&quot;, students[i].name.c_str());
+// 排序，要先定义一下比较的谓词cmp，这里不赘述，假设已经定义好了
+std::sort(students.begin(), students.end(), cmp);
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">结构体定义后面的分号一定不能漏。大家可以故意漏写一次看看会报什么错。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>cmp的定义如下</p>
+<div class="code c++ last highlight-default"><div class="highlight"><pre><span></span><span class="nb">bool</span> <span class="nb">cmp</span><span class="p">(</span><span class="n">Student</span> <span class="n">a</span><span class="p">,</span> <span class="n">Student</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="n">name</span> <span class="o">&lt;</span> <span class="n">b</span><span class="o">.</span><span class="n">name</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>大家应该已经注意到了，结构体将各种不同的数据“结合”在了一起，构成了一个新的类型<code class="docutils literal"><span class="pre">Student</span></code>。我们可以像内置类型一样定义自己的<code class="docutils literal"><span class="pre">Student</span></code>变量，一个<code class="docutils literal"><span class="pre">Student</span></code>变量就是一个<code class="docutils literal"><span class="pre">Student</span></code>类型的实例。使用点操作符可以访问结构体中的某个成员(member)。上面用到的成员都是数据成员，数据成员也叫属性(attribute)。成员使用”<code class="docutils literal"><span class="pre">.</span></code>”操作符来访问。属性访问起来跟普通的变量没什么区别。例子在下面。</p>
+<div class="code c++ highlight-default"><div class="highlight"><pre><span></span>// 定义一个Student变量
+Student student_a;
+// 输入一个名字，标准库string类型不要用scanf
+cin &gt;&gt; student_a.name;
+// 获取它的name
+std::string name_a = student_a.name;
+// 改变它的tel
+student_a.tel = &quot;10086&quot;;
+</pre></div>
+</div>
+<p>使用结构体相比使用一大堆数组，思路更加清晰和自然。</p>
+<p>但是，现在出现了新的问题。</p>
+<p>我们知道，学生的results属性中保存的是学生多次考试的成绩（假设这个学生只学一个科目233），现在校领导想获得每个学生的平均分。在C语言中，也许会这样实现：</p>
+<div class="code c++ highlight-default"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="o">...</span>
+
+<span class="o">//</span> <span class="n">返回学生的平均分</span>
+<span class="n">double</span> <span class="n">getAverage</span><span class="p">(</span><span class="n">Student</span> <span class="n">student</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">double</span> <span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="n">auto</span> <span class="n">marks</span> <span class="p">:</span> <span class="n">student</span><span class="o">.</span><span class="n">results</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">sum</span> <span class="o">+=</span> <span class="n">marks</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">auto</span> <span class="n">beg</span> <span class="o">=</span> <span class="n">student</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">end</span> <span class="o">=</span> <span class="n">student</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">end</span><span class="p">();</span>
+  <span class="k">return</span> <span class="nb">sum</span> <span class="o">/</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">beg</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="o">//</span> <span class="o">...</span>
+
+<span class="o">//</span> <span class="n">输出所有学生的平均分</span>
+<span class="k">for</span><span class="p">(</span><span class="n">auto</span> <span class="n">stu</span> <span class="p">:</span> <span class="n">students</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">的平均分: </span><span class="si">%lf</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">stu</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">getAverage</span><span class="p">(</span><span class="n">stu</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="o">//</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>这样做看起来在小程序中还不错，但是在C++中，有更好更自然的方法</p>
+<div class="code c++ highlight-default"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">Student</span> <span class="p">{</span>
+  <span class="o">//</span> <span class="o">...</span> <span class="n">和前面一样</span>
+  <span class="n">double</span> <span class="n">getAverage</span><span class="p">()</span> <span class="p">{</span>
+      <span class="o">//</span> <span class="o">...</span> <span class="n">不再赘述</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="o">//</span> <span class="o">...</span>
+
+<span class="o">//</span> <span class="n">获取一个名为stu的Student变量的平均分</span>
+<span class="n">stu</span><span class="o">.</span><span class="n">getAverage</span><span class="p">();</span>
+
+<span class="o">//</span> <span class="o">...</span>
+</pre></div>
+</div>
+<blockquote>
+<div>这个例子只是为了引入，大家看看就好，Google的代码风格要求在<strong>只有</strong>数据成员时才使用结构体，否则使用class。我们后面会讲</div></blockquote>
+<p>我们在结构体中定义了<code class="docutils literal"><span class="pre">getAverage()</span></code>函数，这个函数也是结构体的成员，叫做成员函数，也叫方法(method)。</p>
+<p>用类也可以做到上面的效果，事实上struct定义的结构体也是类。类的定义使用<code class="docutils literal"><span class="pre">class</span></code>关键字。<code class="docutils literal"><span class="pre">public:</span></code>表示以下的部分可以被外部访问，<code class="docutils literal"><span class="pre">private</span></code>表示以下成员只能被类的其他成员访问。struct中默认都是
+<code class="docutils literal"><span class="pre">public</span></code>的，而class则默认是<code class="docutils literal"><span class="pre">private</span></code>的。</p>
+<div class="code c++ highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Student</span> <span class="p">{</span>
+ <span class="n">public</span><span class="p">:</span>
+  <span class="o">//</span> <span class="o">...</span> <span class="n">和前面一样</span>
+  <span class="n">double</span> <span class="n">getAverage</span><span class="p">()</span> <span class="p">{</span>
+      <span class="o">//</span> <span class="o">...</span> <span class="n">不再赘述</span>
+  <span class="p">}</span>
+ <span class="n">private</span><span class="p">:</span>
+  <span class="n">std</span><span class="p">::</span><span class="n">string</span> <span class="n">favorate_book</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">Student</span> <span class="n">temp</span><span class="p">;</span>
+<span class="n">std</span><span class="p">::</span><span class="n">string</span> <span class="n">temp_str</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">favorate_book</span><span class="p">;</span> <span class="o">//</span> <span class="n">错误</span>
+<span class="n">temp</span><span class="o">.</span><span class="n">favorate_book</span> <span class="o">=</span> <span class="s2">&quot;Nineteen Eighty-four&quot;</span><span class="p">;</span> <span class="o">//</span> <span class="n">错误</span>
+</pre></div>
+</div>
+<div class="section" id="id3">
+<h3>关于类和结构体声明和定义的位置<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>声明和定义一般都放在头文件(header
+files)中，也就是<code class="docutils literal"><span class="pre">*.h</span></code>文件。类的成员的定义却要放在源文件中(source
+files)，即<code class="docutils literal"><span class="pre">.cc</span></code>/<code class="docutils literal"><span class="pre">.cpp</span></code>/<code class="docutils literal"><span class="pre">.cxx</span></code>文件中（谷歌的风格使用<code class="docutils literal"><span class="pre">.cc</span></code>）。下面举个例子。(
+ps. 后面为了演示方便示例代码可能不会这样写</p>
+<div class="code c++ highlight-default"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">foo</span><span class="o">.</span><span class="n">h中</span>
+<span class="c1">#ifndef FOO_H</span>
+<span class="c1">#define FOO_H</span>
+
+<span class="c1">#include &lt;string&gt;</span>
+
+<span class="n">namespace</span> <span class="n">Project</span> <span class="p">{</span>
+
+<span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+ <span class="n">public</span><span class="p">:</span>
+  <span class="nb">int</span> <span class="n">bar</span><span class="p">();</span>
+ <span class="n">private</span><span class="p">:</span>
+  <span class="nb">int</span> <span class="n">a_</span><span class="p">,</span> <span class="n">b_</span><span class="p">,</span> <span class="n">c_</span><span class="p">;</span>
+  <span class="n">std</span><span class="p">::</span><span class="n">string</span> <span class="n">d_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="p">}</span>
+<span class="c1">#endif</span>
+<span class="o">//-------------------------------------------</span>
+<span class="o">//</span> <span class="n">foo</span><span class="o">.</span><span class="n">cc中</span>
+<span class="c1">#include &quot;foo.h&quot;</span>
+
+<span class="nb">int</span> <span class="n">Project</span><span class="p">::</span><span class="n">Foo</span><span class="p">::</span><span class="n">bar</span><span class="p">()</span> <span class="p">{</span>
+  <span class="o">//</span> <span class="o">...</span>
+  <span class="o">//</span> <span class="o">...</span>
+  <span class="o">//</span> <span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Google的代码风格要求把所有的数据成员定义为
+<code class="docutils literal"><span class="pre">private</span></code>的，并且在数据成员标识符后面加上”<code class="docutils literal"><span class="pre">_</span></code>”。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>构造函数和析构函数初探<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h3>构造函数<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>前面已经初步提到了类的<code class="docutils literal"><span class="pre">public</span></code>部分和<code class="docutils literal"><span class="pre">private</span></code>部分。现在我们想要在一开始就给某个<code class="docutils literal"><span class="pre">Student</span></code>对象赋予其名字。我们可以使用构造函数(constructor)。在使用<code class="docutils literal"><span class="pre">Student</span></code>做例子之前，先看一个更简单的例子。</p>
+<div class="code c++ highlight-default"><div class="highlight"><pre><span></span>class Foo {
+ public:
+  // 这就是构造函数
+  Foo(int a, int b, int c, std::string d) : a_(a), b_(b), c_(c), d_(d) { printf(&quot;Constructor!\n&quot;); }
+  const int getA() { return a_; }
+  // ... BCD略
+  void setA(const int a) { a_ = a; }
+  // ... BCD略
+
+ private:
+  int a_, b_, c_;
+  std::string d_;
+};
+
+// 定义一个Foo类型的变量
+Foo foo(233, 2333, 666, &quot;8964&quot;); // 这里调用完后会输出 Constructor!
+foo.getA(); // 结果为233
+foo.getB(); // 结果为2333
+foo.getC(); // 结果为666
+foo.getD(); // 结果为&quot;8964&quot;
+</pre></div>
+</div>
+<p>很明显，<code class="docutils literal"><span class="pre">Foo()</span></code>就是我们的构造函数。构造函数后面那一串东西叫做初始化列表。例如<code class="docutils literal"><span class="pre">a_(a)</span></code>的意思就是把构造函数参数<code class="docutils literal"><span class="pre">a</span></code>赋给当前对象的属性<code class="docutils literal"><span class="pre">a_</span></code>。我们在初始化时利用变量标识符后面那一串括号来调用构造函数。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">这个例子中函数的定义照理说应该放在源文件中，而不是和类一起放在头文件里。由于我们把每个数据成员都定义为<code class="docutils literal"><span class="pre">private</span></code>的，所以如果需要在类外读取，只好定义一个名为<code class="docutils literal"><span class="pre">getXXX()</span></code>的成员函数来实现。同理，如果要在类外修改，只好定义一个名为<code class="docutils literal"><span class="pre">setXXX()</span></code>的成员函数来实现。这叫做存取控制，也叫封装。</p>
+</div>
+</div>
+<div class="section" id="id6">
+<h3>拷贝构造函数<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>拷贝构造函数其实非常简单，就是用一个同类型的对象来构造自己，例如</p>
+<div class="code c++ highlight-default"><div class="highlight"><pre><span></span>class Foo {
+  // ...
+  // 我们的拷贝构造函数，一般这样放着就行了
+  Foo(const Foo&amp;);
+  // ...
+};
+
+Foo foo1(233, 2333, 666, &quot;sb&quot;);
+Foo foo2(foo1);
+foo2.getD() // 结果为sb
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h3>析构函数<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>析构函数(destructor)，顾名思义，就是在对象被析构的时候调用的。它可以进行一些“善后”的操作。但是到现在为止我写过的析构函数要么是空的，要么<code class="docutils literal"><span class="pre">=</span> <span class="pre">default</span></code></p>
+<p>还是上面那个例子，在上面那段代码的构造函数后面加上一行：</p>
+<div class="code c++ highlight-default"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">使用编译器自动合成的构造函数</span>
+<span class="n">Foo</span><span class="p">()</span> <span class="o">=</span> <span class="n">default</span><span class="p">;</span>
+<span class="o">//</span> <span class="n">这就是析构函数</span>
+<span class="o">~</span><span class="n">Foo</span><span class="p">()</span> <span class="p">{</span> <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;Destructor!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>然后这样用</p>
+<div class="code c++ highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span><span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">;</span><span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">Foo</span> <span class="n">temp</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>就能看到输出是这样的</p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span>Destructor!
+Destructor!
+Destructor!
+Destructor!
+Destructor!
+</pre></div>
+</div>
+<p>由于变量每次离开作用域都要被析构一次，循环了5次，所以调用了五次析构函数。这也是为什么Google的代码风格要求：如果是在循环中的这种临时的类对象，最好放在循环体外面——放在里面的话，要调用好多次析构函数，十分浪费时间。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">关于给<code class="docutils literal"><span class="pre">Student</span></code>类定义构造函数和析构函数，留给读者自己实现。构造函数和析构函数我们过后还会再涉及。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>访问控制与友元<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h3>访问控制<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>访问控制之前已经提到过了，就是<code class="docutils literal"><span class="pre">public</span></code>/<code class="docutils literal"><span class="pre">private</span></code>这些的。当然还有一个<code class="docutils literal"><span class="pre">protected</span></code>，这个我们以后再提。</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">这里必须强调一下，如果一个成员函数只会在类中被调用，请定义成<code class="docutils literal"><span class="pre">private</span></code>。数据成员全部定义为私有，并进行访问控制。不要把所有东西都丢到<code class="docutils literal"><span class="pre">public</span></code>里面去。</p>
+</div>
+</div>
+<div class="section" id="id10">
+<h3>友元<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>有的时候我们会碰到一种情况，必须让少数类外的函数能够访问类的<code class="docutils literal"><span class="pre">private</span></code>部分。这个时候就需要用到友元(friend)了。</p>
+<p>声明友元使用<code class="docutils literal"><span class="pre">friend</span></code>关键字。你想要别人看到你的<code class="docutils literal"><span class="pre">private</span></code>，就指定他为<code class="docutils literal"><span class="pre">friend</span></code>。</p>
+<div class="code c++ highlight-default"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="o">...</span> <span class="n">foo</span><span class="o">.</span><span class="n">h某处</span>
+<span class="o">//</span> <span class="n">友元函数使用前要先在类的外部声明</span>
+<span class="nb">bool</span> <span class="n">compare</span><span class="p">(</span><span class="n">const</span> <span class="n">Foo</span> <span class="n">a</span><span class="p">,</span> <span class="n">const</span> <span class="n">Foo</span> <span class="n">b</span><span class="p">);</span>
+
+<span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+  <span class="o">//</span> <span class="o">...</span>
+  <span class="o">//</span> <span class="n">友元声明</span>
+  <span class="n">friend</span> <span class="nb">bool</span> <span class="n">compare</span><span class="p">(</span><span class="n">const</span> <span class="n">Foo</span> <span class="n">a</span><span class="p">,</span> <span class="n">const</span> <span class="n">Foo</span> <span class="n">b</span><span class="p">);</span>
+  <span class="o">//</span> <span class="o">...</span>
+<span class="p">};</span>
+<span class="o">//</span> <span class="o">----------------------------------------------</span>
+<span class="o">//</span> <span class="o">...</span> <span class="n">foo</span><span class="o">.</span><span class="n">cc的某处</span>
+<span class="n">Project</span><span class="p">::</span><span class="n">compare</span><span class="p">(</span><span class="n">const</span> <span class="n">Foo</span> <span class="n">a</span><span class="p">,</span> <span class="n">const</span> <span class="n">Foo</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="n">a_</span> <span class="o">+</span> <span class="n">a</span><span class="o">.</span><span class="n">b_</span> <span class="o">&gt;</span> <span class="n">b</span><span class="o">.</span><span class="n">a_</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">b_</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ps. 这个例子举的不好，大家只要明白友元怎么用就行了。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">什么东西都不能滥用。我相信应该没有人会把一个类所有的成员都定义成私有的，然后再声明一堆朋友233</p>
+</div>
+</div>
+<div class="section" id="id11">
+<h3>题外话：封装的好处<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>直接引用C++ Primer</p>
+<blockquote>
+<div><p>封装有两个重要的优点：</p>
+<ul class="simple">
+<li>确保用户代码不会无意间破坏封装对象的状态。</li>
+<li>被封装的类具体实现可以随时改变，而无须调整用户级别的代码</li>
+</ul>
+</div></blockquote>
+<p>🔚</p>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2017, segmentation fault.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
