@@ -357,9 +357,9 @@ main.cc的某处，我们在这里使用compare1和compare2
 
 .. code:: c++
 	
-	// 定义两个Foo变量
+    // 定义两个Foo变量
 	Foo a(233, 666, 8964, "sb"), b(0, 0, 0, "aaa");
-	// 这里我们使用compare
+    // 这里我们使用compare
 	compare1(a, b); // 没有错误，由于233 + 666 > 0 + 0，所以结果为true
 	compare2(a, b); // 错误，这个函数根本没有办法读取a和b的私有部分
 	
