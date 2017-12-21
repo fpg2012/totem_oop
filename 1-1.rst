@@ -342,8 +342,8 @@ foo.cc中
 	
 foo.cc的某处
 .. code:: c++
-
-	// 一下分别是对compare1与compare2的定义，不难看出两个函数实际上是一样的
+    
+	// 以下分别是对compare1与compare2的定义，不难看出两个函数实际上是一样的
 	// 差别在与compare1有在类中进行友元声明，而compare2没有
     Project::compare1(const Foo a, const Foo b) {
       return a.a_ + a.b_ > b.a_ + b.b_;
