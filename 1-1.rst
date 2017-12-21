@@ -163,9 +163,10 @@ files)中，也就是\ ``*.h``\ 文件。类的成员的定义却要放在源文
 files)，即\ ``.cc``/``.cpp``/``.cxx``\ 文件中（谷歌的风格使用\ ``.cc``\ ）。下面举个例子。(
 ps. 后面为了演示方便示例代码可能不会这样写
 
+foo.h中
+
 .. code:: c++
 
-    // foo.h中
     #ifndef FOO_H
     #define FOO_H
 
@@ -183,8 +184,11 @@ ps. 后面为了演示方便示例代码可能不会这样写
 
     }
     #endif
-    //-------------------------------------------
-    // foo.cc中
+
+foo.cc中
+	
+.. code:: c++
+
     #include "foo.h"
 
     int Project::Foo::bar() {
@@ -336,21 +340,21 @@ ps. 后面为了演示方便示例代码可能不会这样写
       // ...
     };
 	
+foo.cc的某处
 .. code:: c++
 
-    // ... foo.cc的某处
 	// 一下分别是对compare1与compare2的定义，不难看出两个函数实际上是一样的
 	// 差别在与compare1有在类中进行友元声明，而compare2没有
     Project::compare1(const Foo a, const Foo b) {
       return a.a_ + a.b_ > b.a_ + b.b_;
     }
-	Project::compare2(const Foo a, const Foo b) {
+    Project::compare2(const Foo a, const Foo b) {
 	  return a.a_ + a.b_ > b.a_ + b.b_;
 	}
 
-.. code:: c++
+main.cc的某处，我们在这里使用compare1和compare2
 
-	// ... main.cc的某处，我们在这里使用compare1和compare2
+.. code:: c++
 	
 	// 定义两个Foo变量
 	Foo a(233, 666, 8964, "sb"), b(0, 0, 0, "aaa");
