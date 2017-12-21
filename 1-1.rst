@@ -85,7 +85,7 @@
 
 但是，现在出现了新的问题。
 
-我们知道，学生的results属性中保存的是学生多次考试的成绩（假设这个学生只学一个科目233），现在校领导想获得每个学生的平均分。在C语言中，也许会这样实现：
+我们知道，学生的results属性中保存的是学生多次考试的成绩（假设这个学生只学一个科目233），现在校领导想获得每个学生的平均分。有些人也许会这样实现：
 
 .. code:: c++
 
@@ -323,16 +323,11 @@ ps. 后面为了演示方便示例代码可能不会这样写
 
 有的时候我们会碰到一种情况，必须让少数类外的函数能够访问类的\ ``private``\ 部分。这个时候就需要用到友元(friend)了。
 
-友员函数声明，就是声明允许某个非成员函数访问类的的\``private``\部分。
+友员函数声明，就是声明允许某个非成员函数访问类的的\ ``private``\部分。
 
 声明友元使用\ ``friend``\ 关键字。
 
 .. code:: c++
-
-    // ... foo.h某处
-    // 友元函数使用前要先在类的外部声明
-    bool compare1(const Foo a, const Foo b);
-	bool compare2(const Foo a, const Foo b);
 
     class Foo {
       // ...
@@ -340,18 +335,21 @@ ps. 后面为了演示方便示例代码可能不会这样写
       friend bool compare1(const Foo a, const Foo b);
       // ...
     };
-    // ----------------------------------------------
+	
+.. code:: c++
+
     // ... foo.cc的某处
 	// 一下分别是对compare1与compare2的定义，不难看出两个函数实际上是一样的
 	// 差别在与compare1有在类中进行友元声明，而compare2没有
-    Project::compare(const Foo a, const Foo b) {
+    Project::compare1(const Foo a, const Foo b) {
       return a.a_ + a.b_ > b.a_ + b.b_;
     }
-	
-	Project::compare(const Foo a, const Foo b) {
+	Project::compare2(const Foo a, const Foo b) {
 	  return a.a_ + a.b_ > b.a_ + b.b_;
 	}
-	// ----------------------------------------------
+
+.. code:: c++
+
 	// ... main.cc的某处，我们在这里使用compare1和compare2
 	
 	// 定义两个Foo变量
