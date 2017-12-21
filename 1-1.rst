@@ -341,6 +341,7 @@ foo.cc中
     };
 	
 foo.cc的某处
+
 .. code:: c++
     
 	// 以下分别是对compare1与compare2的定义，不难看出两个函数实际上是一样的
