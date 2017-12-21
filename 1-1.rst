@@ -350,8 +350,8 @@ foo.cc的某处
       return a.a_ + a.b_ > b.a_ + b.b_;
     }
     Project::compare2(const Foo a, const Foo b) {
-	  return a.a_ + a.b_ > b.a_ + b.b_;
-	}
+      return a.a_ + a.b_ > b.a_ + b.b_;
+    }
 
 main.cc的某处，我们在这里使用compare1和compare2
 
