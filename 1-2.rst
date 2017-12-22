@@ -160,7 +160,7 @@ this
      public:
       void func() {
         count();
-        printf("%d", count_);
+        printf("%d\n", count_);
       }
       const int getCount() const { return count_; }
      private:
