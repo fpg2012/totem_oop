@@ -158,7 +158,7 @@ this
 
     class Foo {
      public:
-      void func() {
+      void getCount() {
         count();
         printf("%d\n", count_);
       }
