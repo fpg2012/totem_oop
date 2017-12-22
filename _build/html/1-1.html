@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>面向对象初步 &mdash; totem_oop  documentation</title>
+  <title>面向对象起步 &mdash; totem_oop  documentation</title>
   
 
   
@@ -34,6 +34,7 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="totem_oop  documentation" href="index.html"/>
+        <link rel="next" title="类的各种成员" href="1-2.html"/>
         <link rel="prev" title="写在前面" href="0.html"/> 
 
   
@@ -82,7 +83,7 @@
                 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="0.html">写在前面</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">面向对象初步</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">面向对象起步</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">定义和使用类/结构体</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id3">关于类和结构体声明和定义的位置</a></li>
 </ul>
@@ -101,6 +102,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="1-2.html">类的各种成员</a></li>
 </ul>
 
             
@@ -131,7 +133,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>面向对象初步</li>
+    <li>面向对象起步</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -146,11 +148,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="id1">
-<h1>面向对象初步<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<div class="admonition tip">
-<p class="first admonition-title">Tip</p>
-<p class="last">这部分是基础的面向对象，私以为是最重要的部分。</p>
-</div>
+<h1>面向对象起步<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id2">
 <h2>定义和使用类/结构体<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>在讲定义和使用前，我先按照我的理解解释一下为什么要有类(class)和结构体(struct)。
@@ -251,8 +249,10 @@
 <span class="c1">// ...</span>
 </pre></div>
 </div>
-<blockquote>
-<div>这个例子只是为了引入，大家看看就好，Google的代码风格要求在<strong>只有</strong>数据成员时才使用结构体，否则使用class。我们后面会讲</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">这个例子只是为了引入，大家看看就好，Google的代码风格要求在<strong>只有</strong>数据成员时才使用结构体，否则使用class。我们后面会讲</p>
+</div>
 <p>我们在结构体中定义了<code class="docutils literal"><span class="pre">getAverage()</span></code>函数，这个函数也是结构体的成员，叫做成员函数，也叫方法(method)。</p>
 <p>用类也可以做到上面的效果，事实上struct定义的结构体也是类。类的定义使用<code class="docutils literal"><span class="pre">class</span></code>关键字。<code class="docutils literal"><span class="pre">public:</span></code>表示以下的部分可以被外部访问，<code class="docutils literal"><span class="pre">private</span></code>表示以下成员只能被类的其他成员访问。struct中默认都是
 <code class="docutils literal"><span class="pre">public</span></code>的，而class则默认是<code class="docutils literal"><span class="pre">private</span></code>的。</p>
@@ -444,6 +444,64 @@ ps. 后面为了演示方便示例代码可能不会这样写</p>
 <p class="first admonition-title">Note</p>
 <p class="last">什么东西都不能滥用。我相信应该没有人会把一个类所有的成员都定义成私有的，然后再声明一堆朋友233</p>
 </div>
+<p>我们还可以制定其他类的成员函数为友元，使其可以访问本类的私有成员。用法与上面指定某函数为友元大致相同。</p>
+<div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="c1">// Bar类的前置声明，使Foo类可以使用Bar类</span>
+<span class="k">class</span> <span class="nc">Bar</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+   <span class="kt">void</span> <span class="n">func1</span><span class="p">(</span><span class="k">const</span> <span class="n">Bar</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span> <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d %d %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">a_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">b_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">c_</span><span class="p">);</span> <span class="p">}</span>
+   <span class="kt">void</span> <span class="n">func2</span><span class="p">(</span><span class="k">const</span> <span class="n">Bar</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span> <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d %d %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">a_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">b_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">c_</span><span class="p">);</span> <span class="p">}</span>
+  <span class="k">private</span><span class="o">:</span>
+   <span class="kt">int</span> <span class="n">a_</span><span class="p">,</span> <span class="n">b_</span><span class="p">,</span> <span class="n">c_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">Bar</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+   <span class="k">friend</span> <span class="n">Foo</span><span class="o">::</span><span class="n">func1</span><span class="p">(</span><span class="k">const</span> <span class="n">Bar</span> <span class="n">a</span><span class="p">);</span>
+   <span class="c1">// ... 省略一堆getXXX和setXXX</span>
+ <span class="k">private</span><span class="o">:</span>
+   <span class="kt">int</span> <span class="n">a_</span><span class="p">,</span> <span class="n">b_</span><span class="p">,</span> <span class="n">c_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">Foo</span> <span class="n">a</span><span class="p">;</span>
+<span class="n">Bar</span> <span class="n">b</span><span class="p">;</span>
+<span class="n">b</span><span class="p">.</span><span class="n">setA</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="n">b</span><span class="p">.</span><span class="n">setB</span><span class="p">(</span><span class="mi">233</span><span class="p">);</span>
+<span class="n">b</span><span class="p">.</span><span class="n">setC</span><span class="p">(</span><span class="mi">438</span><span class="p">);</span>
+<span class="n">a</span><span class="p">.</span><span class="n">func1</span><span class="p">(</span><span class="n">b</span><span class="p">);</span> <span class="c1">// 正确，将输出 100 233 438</span>
+<span class="n">a</span><span class="p">.</span><span class="n">func2</span><span class="p">(</span><span class="n">b</span><span class="p">);</span> <span class="c1">// 错误，不能访问Bar类的私有部分</span>
+</pre></div>
+</div>
+<p>我们甚至可以直接指定某个类为友元，其意义是整个类作用域中的函数都是友元。还是上面那个例子。</p>
+<div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="c1">// Bar类的前置声明，使Foo类可以使用Bar类</span>
+<span class="k">class</span> <span class="nc">Bar</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+   <span class="kt">void</span> <span class="n">func1</span><span class="p">(</span><span class="k">const</span> <span class="n">Bar</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span> <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d %d %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">a_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">b_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">c_</span><span class="p">);</span> <span class="p">}</span>
+   <span class="kt">void</span> <span class="n">func2</span><span class="p">(</span><span class="k">const</span> <span class="n">Bar</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span> <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d %d %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">a_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">b_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">c_</span><span class="p">);</span> <span class="p">}</span>
+  <span class="k">private</span><span class="o">:</span>
+   <span class="kt">int</span> <span class="n">a_</span><span class="p">,</span> <span class="n">b_</span><span class="p">,</span> <span class="n">c_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">Bar</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+   <span class="k">friend</span> <span class="k">class</span> <span class="nc">Foo</span><span class="p">;</span>
+   <span class="c1">// ... 省略一堆getXXX和setXXX</span>
+ <span class="k">private</span><span class="o">:</span>
+   <span class="kt">int</span> <span class="n">a_</span><span class="p">,</span> <span class="n">b_</span><span class="p">,</span> <span class="n">c_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">Foo</span> <span class="n">a</span><span class="p">;</span>
+<span class="n">Bar</span> <span class="n">b</span><span class="p">;</span>
+<span class="n">b</span><span class="p">.</span><span class="n">setA</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="n">b</span><span class="p">.</span><span class="n">setB</span><span class="p">(</span><span class="mi">233</span><span class="p">);</span>
+<span class="n">b</span><span class="p">.</span><span class="n">setC</span><span class="p">(</span><span class="mi">438</span><span class="p">);</span>
+<span class="n">a</span><span class="p">.</span><span class="n">func1</span><span class="p">(</span><span class="n">b</span><span class="p">);</span> <span class="c1">// 正确，将输出 100 233 438</span>
+<span class="n">a</span><span class="p">.</span><span class="n">func2</span><span class="p">(</span><span class="n">b</span><span class="p">);</span> <span class="c1">// 正确，将输出 100 233 438</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="id11">
 <h3>题外话：封装的好处<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
@@ -465,6 +523,8 @@ ps. 后面为了演示方便示例代码可能不会这样写</p>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="1-2.html" class="btn btn-neutral float-right" title="类的各种成员" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="0.html" class="btn btn-neutral" title="写在前面" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

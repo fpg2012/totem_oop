@@ -1,11 +1,7 @@
 .. header-n0:
 
-面向对象初步
+面向对象起步
 ============
-
-.. tip:: 
-
-    这部分是基础的面向对象，私以为是最重要的部分。
 
 .. header-n5:
 
@@ -130,7 +126,11 @@
 
 ..
 
+.. note::
+
     这个例子只是为了引入，大家看看就好，Google的代码风格要求在\ **只有**\ 数据成员时才使用结构体，否则使用class。我们后面会讲
+
+..
 
 我们在结构体中定义了\ ``getAverage()``\ 函数，这个函数也是结构体的成员，叫做成员函数，也叫方法(method)。
 
@@ -369,9 +369,80 @@ main.cc的某处，我们在这里使用compare1和compare2
 
     ps. 这个例子举的不好，大家只要明白友元怎么用就行了。
 
+..
+
 .. note:: 
 
     什么东西都不能滥用。我相信应该没有人会把一个类所有的成员都定义成私有的，然后再声明一堆朋友233
+
+..
+
+我们还可以制定其他类的成员函数为友元，使其可以访问本类的私有成员。用法与上面指定某函数为友元大致相同。
+
+.. code:: c++
+
+    // Bar类的前置声明，使Foo类可以使用Bar类
+    class Bar;
+
+    class Foo {
+      public:
+       void func1(const Bar a) { printf("%d %d %d\n", a.a_, a.b_, a.c_); }
+       void func2(const Bar a) { printf("%d %d %d\n", a.a_, a.b_, a.c_); }
+      private:
+       int a_, b_, c_;
+    };
+
+    class Bar {
+     public:
+       friend Foo::func1(const Bar a);
+       // ... 省略一堆getXXX和setXXX
+     private:
+       int a_, b_, c_;
+    };
+
+    Foo a;
+    Bar b;
+    b.setA(100);
+    b.setB(233);
+    b.setC(438);
+    a.func1(b); // 正确，将输出 100 233 438
+    a.func2(b); // 错误，不能访问Bar类的私有部分
+
+..
+
+我们甚至可以直接指定某个类为友元，其意义是整个类作用域中的函数都是友元。还是上面那个例子。
+
+.. code:: c++
+
+    // Bar类的前置声明，使Foo类可以使用Bar类
+    class Bar;
+
+    class Foo {
+      public:
+       void func1(const Bar a) { printf("%d %d %d\n", a.a_, a.b_, a.c_); }
+       void func2(const Bar a) { printf("%d %d %d\n", a.a_, a.b_, a.c_); }
+      private:
+       int a_, b_, c_;
+    };
+
+    class Bar {
+     public:
+       friend class Foo;
+       // ... 省略一堆getXXX和setXXX
+     private:
+       int a_, b_, c_;
+    };
+
+    Foo a;
+    Bar b;
+    b.setA(100);
+    b.setB(233);
+    b.setC(438);
+    a.func1(b); // 正确，将输出 100 233 438
+    a.func2(b); // 正确，将输出 100 233 438
+
+..
+
 
 .. header-n101:
 
