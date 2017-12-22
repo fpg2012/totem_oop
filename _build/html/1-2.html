@@ -1,0 +1,402 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>类的各种成员 &mdash; totem_oop  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="totem_oop  documentation" href="index.html"/>
+        <link rel="prev" title="面向对象起步" href="1-1.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> totem_oop
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="0.html">写在前面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1-1.html">面向对象起步</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">类的各种成员</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">类的类型成员</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#this">this</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">令成员为内联函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">可变数据成员</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">类类型</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">totem_oop</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>类的各种成员</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/1-2.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>类的各种成员<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>前面已经提到，一个类可以包括若干属性和若干方法，这些属性和方法叫做这个类的成员。并且类的成员可以有<code class="docutils literal"><span class="pre">public</span></code>的和<code class="docutils literal"><span class="pre">private</span></code>的。
+这里就不再重复。我们从一些特殊的成员开始。</p>
+<div class="section" id="id2">
+<h2>类的类型成员<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>在C++中，我们可以使用<code class="docutils literal"><span class="pre">typedef</span></code>关键字或者<code class="docutils literal"><span class="pre">using</span></code>关键字定义类型别名。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>定义类型别名不是OOP的内容，考虑到应该还有人不了解，这里也讲一下。
+所谓类型别名，顾名思义，就是给已有的类型一个另外的名字。定义类型别名有时候可以增加代码的可读性。
+<code class="docutils literal"><span class="pre">typedef</span></code>关键字能够定义一个类型别名。</p>
+<div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="k">typedef</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">ll</span><span class="p">;</span>
+<span class="n">ll</span> <span class="n">a</span> <span class="o">=</span> <span class="mf">1e18</span><span class="p">;</span>
+<span class="kt">long</span> <span class="kt">long</span> <span class="n">b</span> <span class="o">=</span> <span class="mf">1e18</span><span class="p">;</span> <span class="c1">// 抛去变量名的不同，上下两个语句其实是等价的</span>
+
+<span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">pii</span><span class="p">;</span>
+<span class="n">pii</span> <span class="n">a</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_pair</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_pair</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span> <span class="c1">// 抛去变量名的不同，与上面那条语句等价</span>
+</pre></div>
+</div>
+<p>C++11还提供了另一种定义类型别名的方法，那就是使用<code class="docutils literal"><span class="pre">using</span></code>关键字。下面的例子根上面完全等价。</p>
+<div class="code c++ last highlight-cpp"><div class="highlight"><pre><span class="k">using</span> <span class="n">ll</span> <span class="o">=</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">;</span>
+<span class="n">ll</span> <span class="n">a</span> <span class="o">=</span> <span class="mf">1e18</span><span class="p">;</span>
+<span class="kt">long</span> <span class="kt">long</span> <span class="n">b</span> <span class="o">=</span> <span class="mf">1e18</span><span class="p">;</span> <span class="c1">// 抛去变量名的不同，上下两个语句其实是等价的</span>
+
+<span class="k">using</span> <span class="n">pii</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">pii</span> <span class="n">a</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_pair</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_pair</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span> <span class="c1">// 抛去变量名的不同，与上面那条语句等价</span>
+</pre></div>
+</div>
+</div>
+<p>我们可以在类中使用类型别名，这个别名叫做类的类型成员。下面以<code class="docutils literal"><span class="pre">using</span></code>为例。</p>
+<div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Student</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">using</span> <span class="n">number_type</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">;</span>
+  <span class="c1">// ... 省略构造函数等一堆方法</span>
+ <span class="k">private</span><span class="o">:</span>
+  <span class="c1">// no_存放学生的号数</span>
+  <span class="c1">// 有没有觉得可读性变高了2333，有时这样做也能提高可扩展性</span>
+  <span class="n">number_type</span> <span class="n">no_</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">由于类型别名必须定义后才能使用，所以类型成员一般放在类开始的地方。</p>
+</div>
+</div>
+<div class="section" id="this">
+<h2>this<a class="headerlink" href="#this" title="Permalink to this headline">¶</a></h2>
+<p>为了获得调用成员函数的对象，this指针应运而成。相当于python中的self。下面还是举个例子。
+这个例子中，我们假设，学校为了应付达标校检查而临时开了选修课，每个学生必须并且只能参与一门选修课。为了记录每个学生选的课，我们的学生管理程序必须做出更改。</p>
+<p>每个Course类中members_成员存储所有选这门课的学生。以下是Course类。</p>
+<div class="code highlight-cpp"><div class="highlight"><pre><span class="c1">// 课程类，由于Class和关键字class太像，所以用MyClass取而代之</span>
+<span class="k">class</span> <span class="nc">Course</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="c1">// ... 省略构造函数等一堆方法</span>
+  <span class="kt">void</span> <span class="n">addStudent</span><span class="p">(</span><span class="k">const</span> <span class="n">Student</span><span class="o">*</span> <span class="n">student</span><span class="p">)</span> <span class="p">{</span> <span class="n">members_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">student</span><span class="p">);</span> <span class="p">}</span>
+ <span class="k">private</span><span class="o">:</span>
+  <span class="c1">// ... 省略一堆属性</span>
+  <span class="c1">// members保存指向这个</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">*&gt;</span> <span class="n">members_</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>以下是Student类，我们添加了一个join函数。</p>
+<div class="code highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Student</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="kt">void</span> <span class="n">join</span><span class="p">(</span><span class="k">const</span> <span class="n">Course</span> <span class="o">*</span><span class="n">course</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">course_</span> <span class="o">=</span> <span class="n">course</span><span class="p">;</span>
+    <span class="n">course</span><span class="o">-&gt;</span><span class="n">addStudent</span><span class="p">(</span><span class="k">this</span><span class="p">);</span> <span class="c1">// 注意这个this，它指向调用join的那个对象的指针</span>
+  <span class="p">}</span>
+ <span class="k">private</span><span class="o">:</span>
+  <span class="n">Course</span> <span class="o">*</span><span class="n">course_</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>下面是使用join和addStudent。</p>
+<div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="n">Student</span> <span class="nf">nth</span><span class="p">(</span><span class="s">&quot;nth233&quot;</span><span class="p">);</span> <span class="c1">// 假设我们已经定义了一个构造函数，可以直接初始化学生的姓名</span>
+<span class="n">Course</span> <span class="nf">noip</span><span class="p">(</span><span class="s">&quot;noip&quot;</span><span class="p">);</span> <span class="c1">// 假设我们已经定义了一个函数，可以直接初始化课程的名字</span>
+<span class="n">Course</span> <span class="n">noip_p</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">noip</span><span class="p">;</span>
+<span class="n">nth</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">noip_p</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p>我们可以把this指定为const的，即this指向的对象是一个常量，这样做的意义是防止成员函数修改调用它的对象。</p>
+<div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="n">Foo</span><span class="o">*</span> <span class="n">returnThis</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">//                ↑↑↑↑↑ 注意这个const，它将this指定为const的</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>像<code class="docutils literal"><span class="pre">returnThis()</span></code>这样制定this为const的的成员函数，叫做常量成员函数(const member function)。</p>
+<p class="last">常量对象，以及常量对象的引用或指针，都只能调用常量成员函数(比如const的std::map就没有<code class="docutils literal"><span class="pre">[]</span></code>操作)。所以我们常常需要定义成员函数的const版本。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">这个例子emmmm…也是强行举的，似乎举得不好。有更好的建议可以提出来，或者写好以后直接到github上pull request</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>令成员为内联函数<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>这个…不多说。我们可以在类中制定某个成员函数为内联函数(使用<code class="docutils literal"><span class="pre">inline</span></code>关键字)，也可以在类的外部指定。</p>
+<p>就这样。</p>
+</div>
+<div class="section" id="id4">
+<h2>可变数据成员<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>我们知道，const对象的任何属性都是不能被修改的。然而少数时候，我们可能希望能够修改const对象的某些成员。
+这时候我们就需要可变数据成员(mutable data member)。可变数据成员使用<code class="docutils literal"><span class="pre">mutable</span></code>关键字指定，被指定为<code class="docutils literal"><span class="pre">mutable</span></code>的成员永远都不是const，也就意味着它永远都可以被修改。</p>
+<div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="kt">void</span> <span class="n">func</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">count</span><span class="p">();</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span> <span class="n">count_</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">const</span> <span class="kt">int</span> <span class="n">getCount</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">count_</span><span class="p">;</span> <span class="p">}</span>
+ <span class="k">private</span><span class="o">:</span>
+  <span class="k">mutable</span> <span class="kt">int</span> <span class="n">count_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// 初始值为0，保存函数func被调用的次数</span>
+  <span class="kt">void</span> <span class="nf">count</span><span class="p">()</span> <span class="p">{</span> <span class="o">++</span><span class="n">count_</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>使用如下</p>
+<div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="k">const</span> <span class="n">Foo</span> <span class="n">a</span><span class="p">;</span>
+<span class="k">while</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">getCount</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">)</span>
+  <span class="k">continue</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>输出如下</p>
+<div class="code highlight-cpp"><div class="highlight"><pre><span class="mi">1</span>
+<span class="mi">2</span>
+<span class="mi">3</span>
+<span class="mi">4</span>
+<span class="mi">5</span>
+<span class="mi">6</span>
+<span class="mi">7</span>
+<span class="mi">8</span>
+<span class="mi">9</span>
+<span class="mi">10</span>
+<span class="c1">// ... 省略</span>
+<span class="mi">95</span>
+<span class="mi">96</span>
+<span class="mi">97</span>
+<span class="mi">98</span>
+<span class="mi">99</span>
+<span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>类类型<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>我们之前已经说过，定义一个类，就定义了一个新的类型。对于两个类来说，即使他们的成员完全一样，也是两个不同的类型。</p>
+<div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">Foo</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">struct</span> <span class="n">Bar</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">Foo</span> <span class="n">a</span><span class="p">;</span>
+<span class="n">Bar</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span> <span class="c1">// 错误，a与b类型不同，而且在本例中无法相互转换</span>
+</pre></div>
+</div>
+<p>关于类型转换的那一堆东西，我们以后再讲。在本例中，如果想让Foo类型和Bar类型相互转换，要定义一个相关的构造函数，或者重载<code class="docutils literal"><span class="pre">=</span></code>运算符。</p>
+<div class="code highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">Foo</span> <span class="p">{</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Foo</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Bar</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Bar</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Bar</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">struct</span> <span class="n">Bar</span> <span class="p">{</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Foo</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Bar</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Bar</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Bar</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kt">bool</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Foo</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Bar</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">a</span><span class="p">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">a</span><span class="p">;</span>
+  <span class="n">a</span><span class="p">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">a</span><span class="p">;</span>
+  <span class="n">a</span><span class="p">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">c</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Bar</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Bar</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">a</span><span class="p">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">a</span><span class="p">;</span>
+  <span class="n">a</span><span class="p">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">a</span><span class="p">;</span>
+  <span class="n">a</span><span class="p">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">c</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">Foo</span> <span class="n">a</span><span class="p">;</span>
+<span class="n">Bar</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span> <span class="c1">// ok</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="1-1.html" class="btn btn-neutral" title="面向对象起步" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, segmentation fault.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

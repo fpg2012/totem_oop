@@ -1,0 +1,256 @@
+类的各种成员
+========================
+
+前面已经提到，一个类可以包括若干属性和若干方法，这些属性和方法叫做这个类的成员。并且类的成员可以有\ ``public``\的和\ ``private``\的。
+这里就不再重复。我们从一些特殊的成员开始。
+
+类的类型成员
+------------------------------------
+
+在C++中，我们可以使用\ ``typedef``\关键字或者\ ``using``\关键字定义类型别名。
+
+.. note::
+
+    定义类型别名不是OOP的内容，考虑到应该还有人不了解，这里也讲一下。
+    所谓类型别名，顾名思义，就是给已有的类型一个另外的名字。定义类型别名有时候可以增加代码的可读性。
+    \ ``typedef``\关键字能够定义一个类型别名。
+
+    .. code:: c++
+
+        typedef long long ll;
+        ll a = 1e18;
+        long long b = 1e18; // 抛去变量名的不同，上下两个语句其实是等价的
+
+        typedef std::pair<int, int> pii;
+        pii a = std::make_pair(100, 10); 
+        std::pair<int, int> a = std::make_pair(100, 10); // 抛去变量名的不同，与上面那条语句等价
+    
+    ..
+
+    C++11还提供了另一种定义类型别名的方法，那就是使用\ ``using``\关键字。下面的例子根上面完全等价。
+
+    .. code:: c++
+
+        using ll = long long;
+        ll a = 1e18;
+        long long b = 1e18; // 抛去变量名的不同，上下两个语句其实是等价的
+
+        using pii = std::pair<int, int>;
+        pii a = std::make_pair(100, 10); 
+        std::pair<int, int> a = std::make_pair(100, 10); // 抛去变量名的不同，与上面那条语句等价
+
+    ..
+
+..
+
+我们可以在类中使用类型别名，这个别名叫做类的类型成员。下面以\ ``using``\为例。
+
+.. code:: c++
+
+    class Student {
+     public:
+      using number_type = std::string;
+      // ... 省略构造函数等一堆方法
+     private:
+      // no_存放学生的号数
+      // 有没有觉得可读性变高了2333，有时这样做也能提高可扩展性
+      number_type no_;
+    };
+
+..
+
+.. tip::
+
+    由于类型别名必须定义后才能使用，所以类型成员一般放在类开始的地方。
+
+..
+
+this
+---------------------------------
+
+为了获得调用成员函数的对象，this指针应运而成。相当于python中的self。下面还是举个例子。
+这个例子中，我们假设，学校为了应付达标校检查而临时开了选修课，每个学生必须并且只能参与一门选修课。为了记录每个学生选的课，我们的学生管理程序必须做出更改。
+
+每个Course类中members_成员存储所有选这门课的学生。以下是Course类。
+
+.. code::
+
+    // 课程类，由于Class和关键字class太像，所以用MyClass取而代之
+    class Course {
+     public:
+      // ... 省略构造函数等一堆方法
+      void addStudent(const Student* student) { members_.push_back(student); }
+     private:
+      // ... 省略一堆属性
+      // members保存指向这个
+      std::vector<Student*> members_;
+    };
+
+..
+
+以下是Student类，我们添加了一个join函数。
+
+.. code::
+
+    class Student {
+     public:
+      void join(const Course *course) {
+        course_ = course;
+        course->addStudent(this); // 注意这个this，它指向调用join的那个对象的指针
+      }
+     private:
+      Course *course_;
+    };
+
+..
+
+下面是使用join和addStudent。
+
+.. code:: c++
+
+    Student nth("nth233"); // 假设我们已经定义了一个构造函数，可以直接初始化学生的姓名
+    Course noip("noip"); // 假设我们已经定义了一个函数，可以直接初始化课程的名字
+    Course noip_p = &noip;
+    nth.join(noip_p);
+
+..
+
+.. tip::
+
+    我们可以把this指定为const的，即this指向的对象是一个常量，这样做的意义是防止成员函数修改调用它的对象。
+
+    .. code:: c++
+
+        class Foo {
+         public:
+          Foo* returnThis() const { return this; }
+          //                ↑↑↑↑↑ 注意这个const，它将this指定为const的
+        };
+    
+    ..
+
+    像\ ``returnThis()``\这样制定this为const的的成员函数，叫做常量成员函数(const member function)。
+
+    常量对象，以及常量对象的引用或指针，都只能调用常量成员函数(比如const的std::map就没有\ ``[]``\操作)。所以我们常常需要定义成员函数的const版本。
+
+..
+
+.. note::
+
+    这个例子emmmm...也是强行举的，似乎举得不好。有更好的建议可以提出来，或者写好以后直接到github上pull request
+
+..
+
+令成员为内联函数
+-------------------------------
+
+这个...不多说。我们可以在类中制定某个成员函数为内联函数(使用\ ``inline``\关键字)，也可以在类的外部指定。
+
+就这样。
+
+可变数据成员
+--------------------------------
+
+我们知道，const对象的任何属性都是不能被修改的。然而少数时候，我们可能希望能够修改const对象的某些成员。
+这时候我们就需要可变数据成员(mutable data member)。可变数据成员使用\ ``mutable``\关键字指定，被指定为\ ``mutable``\的成员永远都不是const，也就意味着它永远都可以被修改。
+
+.. code:: c++
+
+    class Foo {
+     public:
+      void func() {
+        count();
+        printf("%d", count_);
+      }
+      const int getCount() const { return count_; }
+     private:
+      mutable int count_ = 0; // 初始值为0，保存函数func被调用的次数
+      void count() { ++count_; }
+    };
+
+..
+
+使用如下
+
+.. code:: c++
+
+    const Foo a;
+    while(a.getCount() < 100)
+      continue;
+
+..
+
+输出如下
+
+.. code::
+
+    1
+    2
+    3
+    4
+    5
+    6
+    7
+    8
+    9
+    10
+    // ... 省略
+    95
+    96
+    97
+    98
+    99
+    100
+
+..
+
+类类型
+---------------------------------------
+
+我们之前已经说过，定义一个类，就定义了一个新的类型。对于两个类来说，即使他们的成员完全一样，也是两个不同的类型。
+
+.. code:: c++
+
+    struct Foo {
+      int a, b, c;
+    };
+    struct Bar {
+      int a, b, c;
+    };
+
+    Foo a;
+    Bar b = a; // 错误，a与b类型不同，而且在本例中无法相互转换
+
+..
+
+关于类型转换的那一堆东西，我们以后再讲。在本例中，如果想让Foo类型和Bar类型相互转换，要定义一个相关的构造函数，或者重载\ ``=``\运算符。
+
+.. code::
+    
+    struct Foo {
+      friend bool operator=(Foo &a, const Bar &b);
+      friend bool operator=(Bar &a, const Bar &b);
+      int a, b, c;
+    };
+    struct Bar {
+      friend bool operator=(Foo &a, const Bar &b);
+      friend bool operator=(Bar &a, const Bar &b);
+      int a, b, c;
+    };
+
+    bool operator=(Foo &a, const Bar &b) {
+      a.a = b.a;
+      a.b = b.a;
+      a.c = b.c;
+    }
+
+    bool operator=(Bar &a, const Bar &b) {
+      a.a = b.a;
+      a.b = b.a;
+      a.c = b.c;
+    }
+
+    Foo a;
+    Bar b = a; // ok
+
+..
