@@ -85,7 +85,7 @@
 
 但是，现在出现了新的问题。
 
-我们知道，学生的results属性中保存的是学生多次考试的成绩（假设这个学生只学一个科目233），现在校领导想获得每个学生的平均分。在C语言中，也许会这样实现：
+我们知道，学生的results属性中保存的是学生多次考试的成绩（假设这个学生只学一个科目233），现在校领导想获得每个学生的平均分。有些人也许会这样实现：
 
 .. code:: c++
 
@@ -163,9 +163,10 @@ files)中，也就是\ ``*.h``\ 文件。类的成员的定义却要放在源文
 files)，即\ ``.cc``/``.cpp``/``.cxx``\ 文件中（谷歌的风格使用\ ``.cc``\ ）。下面举个例子。(
 ps. 后面为了演示方便示例代码可能不会这样写
 
+foo.h中
+
 .. code:: c++
 
-    // foo.h中
     #ifndef FOO_H
     #define FOO_H
 
@@ -183,8 +184,11 @@ ps. 后面为了演示方便示例代码可能不会这样写
 
     }
     #endif
-    //-------------------------------------------
-    // foo.cc中
+
+foo.cc中
+	
+.. code:: c++
+
     #include "foo.h"
 
     int Project::Foo::bar() {
@@ -323,26 +327,42 @@ ps. 后面为了演示方便示例代码可能不会这样写
 
 有的时候我们会碰到一种情况，必须让少数类外的函数能够访问类的\ ``private``\ 部分。这个时候就需要用到友元(friend)了。
 
-声明友元使用\ ``friend``\ 关键字。你想要别人看到你的\ ``private``\ ，就指定他为\ ``friend``\ 。
+友员函数声明，就是声明允许某个非成员函数访问类的的\ ``private``\部分。
+
+声明友元使用\ ``friend``\ 关键字。
 
 .. code:: c++
-
-    // ... foo.h某处
-    // 友元函数使用前要先在类的外部声明
-    bool compare(const Foo a, const Foo b);
 
     class Foo {
       // ...
       // 友元声明
-      friend bool compare(const Foo a, const Foo b);
+      friend bool compare1(const Foo a, const Foo b);
       // ...
     };
-    // ----------------------------------------------
-    // ... foo.cc的某处
-    Project::compare(const Foo a, const Foo b) {
+	
+foo.cc的某处
+
+.. code:: c++
+    
+    // 以下分别是对compare1与compare2的定义，不难看出两个函数实际上是一样的
+    // 差别在与compare1有在类中进行友元声明，而compare2没有
+    Project::compare1(const Foo a, const Foo b) {
+      return a.a_ + a.b_ > b.a_ + b.b_;
+    }
+    Project::compare2(const Foo a, const Foo b) {
       return a.a_ + a.b_ > b.a_ + b.b_;
     }
 
+main.cc的某处，我们在这里使用compare1和compare2
+
+.. code:: c++
+    
+    // 定义两个Foo变量
+    Foo a(233, 666, 8964, "sb"), b(0, 0, 0, "aaa");
+    // 这里我们使用compare
+    compare1(a, b); // 没有错误，由于233 + 666 > 0 + 0，所以结果为true
+    compare2(a, b); // 错误，这个函数根本没有办法读取a和b的私有部分
+	
 ..
 
 .. note::
@@ -366,4 +386,3 @@ ps. 后面为了演示方便示例代码可能不会这样写
 
     -  被封装的类具体实现可以随时改变，而无须调整用户级别的代码
 
-🔚
