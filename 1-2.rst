@@ -164,7 +164,7 @@ this
         return count_;
       }
      private:
-      mutable int count_ = 0; // 初始值为0，保存函数func被调用的次数
+      mutable int count_ = 0; // 初始值为0，保存函数getCount被调用的次数
       void count() { ++count_; }
     };
 
