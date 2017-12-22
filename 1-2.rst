@@ -158,9 +158,10 @@ this
 
     class Foo {
      public:
-      void getCount() {
+      int getCount() {
         count();
         printf("%d\n", count_);
+        return count_;
       }
       const int getCount() const { return count_; }
      private:
