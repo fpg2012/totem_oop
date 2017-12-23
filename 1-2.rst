@@ -225,32 +225,61 @@ this
 
 关于类型转换的那一堆东西，我们以后再讲。在本例中，如果想让Foo类型和Bar类型相互转换，要定义一个相关的构造函数，或者重载\ ``=``\运算符。
 
+然后说个题外话，我在测试上面那个例子的时候连续踩了几个坑，这里提出一下。大家看看就好，因为这个只是无意中踩到的坑，这里其实可以不用友元解决问题。关于完全类型和不完全类型我们过后再解释。还有就是赋值运算符似乎只能放在类里面。
+
 .. code::
     
-    struct Foo {
-      friend bool operator=(Foo &a, const Bar &b);
-      friend bool operator=(Bar &a, const Bar &b);
-      int a, b, c;
-    };
-    struct Bar {
-      friend bool operator=(Foo &a, const Bar &b);
-      friend bool operator=(Bar &a, const Bar &b);
-      int a, b, c;
+    // 前置声明，这里由于下面Bar类使用Foo类的时候，Foo类还没有定义，所以必须前置声明
+    class Foo;
+
+    // Bar类，这里Bar类必须先于Foo定义，因为类的声明必须在其成员函数友元声明之前
+    class Bar {
+     public:
+      Bar() = default;
+      Bar(int a, int b, int c) : a_(a), b_(b), c_(c) {}
+      const int getA() { return a_; }
+      const int getB() { return b_; }
+      const int getC() { return c_; }
+      // 这里不能直接定义operator=，因为Foo还是不完全类型
+      Bar &operator=(const Foo &b);
+     private:
+      int a_, b_, c_;
     };
 
-    bool operator=(Foo &a, const Bar &b) {
-      a.a = b.a;
-      a.b = b.a;
-      a.c = b.c;
+    class Foo {
+     public:
+      // 友元，令Bar的operator=为友元
+      // 还有一种写法是用"friend class Bar"使整个Bar类为友元，这样只需要声明好Bar类就行，而不需要考虑operator=是否已经定义的问题。
+      friend Bar &Bar::operator=(const Foo &b);
+      Foo() = default;
+      Foo(int a, int b, int c) : a_(a), b_(b), c_(c) {}
+      const int getA() { return a_; }
+      const int getB() { return b_; }
+      const int getC() { return c_; }
+      Foo &operator=(const Foo &b) {
+        a_ = b.a_;
+        b_ = b.b_;
+        c_ = b.c_;
+        return *this;
+      }
+     private:
+      int a_, b_, c_;
+    };
+
+    // 等Foo类定义完以后，才可以定义Bar中的operator=
+    Bar &Bar::operator=(const Foo &b) {
+      a_ = b.a_;
+      b_ = b.b_;
+      c_ = b.c_;
+      return *this;
     }
 
-    bool operator=(Bar &a, const Bar &b) {
-      a.a = b.a;
-      a.b = b.a;
-      a.c = b.c;
+    int main() {
+      Foo a(10, 233, 100);
+      Bar b;
+      b = a;
+      printf("%d %d %d\n", b.getA(), b.getB(), b.getC()); // 输出是10 233 100，没有问题
+      return 0;
     }
-
-    Foo a;
-    Bar b = a; // ok
 
 ..
