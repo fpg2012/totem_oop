@@ -23,7 +23,7 @@
 
         typedef std::pair<int, int> pii;
         pii a = std::make_pair(100, 10); 
-        std::pair<int, int> a = std::make_pair(100, 10); // 抛去变量名的不同，与上面那条语句等价
+        std::pair<int, int> b = std::make_pair(100, 10); // 抛去变量名的不同，与上面那条语句等价
     
     ..
 
@@ -73,6 +73,12 @@ this
 
 每个Course类中members_成员存储所有选这门课的学生。以下是Course类。
 
+.. note::
+
+    下面那个例子我还没有测试，可能有错误。目测坑很多。
+
+..
+
 .. code::
 
     // 课程类，由于Class和关键字class太像，所以用MyClass取而代之
@@ -82,7 +88,7 @@ this
       void addStudent(const Student* student) { members_.push_back(student); }
      private:
       // ... 省略一堆属性
-      // members保存指向这个
+      // members保存指向选这门课的学生的指针
       std::vector<Student*> members_;
     };
 
@@ -94,11 +100,14 @@ this
 
     class Student {
      public:
+     // ... 省略构造函数等一堆方法
       void join(const Course *course) {
         course_ = course;
         course->addStudent(this); // 注意这个this，它指向调用join的那个对象的指针
       }
      private:
+      // ... 省略一堆属性
+      // course_保存指向所选课的指针
       Course *course_;
     };
 
