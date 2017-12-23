@@ -231,9 +231,13 @@ foo.cc中
      public:
       // 这就是构造函数
       Foo(int a, int b, int c, std::string d) : a_(a), b_(b), c_(c), d_(d) { printf("Constructor!\n"); }
-      const int getA() { return a_; }
+      const int getA() {
+        return a_;
+      }
       // ... BCD略
-      void setA(const int a) { a_ = a; }
+      void setA(const int a) {
+        a_ = a;
+      }
       // ... BCD略
 
      private:
@@ -395,11 +399,15 @@ main.cc的某处，我们在这里使用compare1和compare2
     class Bar;
 
     class Foo {
-      public:
-       void func1(const Bar a) { printf("%d %d %d\n", a.a_, a.b_, a.c_); }
-       void func2(const Bar a) { printf("%d %d %d\n", a.a_, a.b_, a.c_); }
-      private:
-       int a_, b_, c_;
+     public:
+      void func1(const Bar a) {
+        printf("%d %d %d\n", a.a_, a.b_, a.c_);
+       }
+      void func2(const Bar a) {
+        printf("%d %d %d\n", a.a_, a.b_, a.c_);
+      }
+     private:
+      int a_, b_, c_;
     };
 
     class Bar {
@@ -428,11 +436,15 @@ main.cc的某处，我们在这里使用compare1和compare2
     class Bar;
 
     class Foo {
-      public:
-       void func1(const Bar a) { printf("%d %d %d\n", a.a_, a.b_, a.c_); }
-       void func2(const Bar a) { printf("%d %d %d\n", a.a_, a.b_, a.c_); }
-      private:
-       int a_, b_, c_;
+     public:
+      void func1(const Bar a) {
+        printf("%d %d %d\n", a.a_, a.b_, a.c_);
+       }
+      void func2(const Bar a) {
+        printf("%d %d %d\n", a.a_, a.b_, a.c_);
+      }
+     private:
+      int a_, b_, c_;
     };
 
     class Bar {
