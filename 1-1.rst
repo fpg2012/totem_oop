@@ -70,9 +70,7 @@
 
     .. code:: c++
 
-        bool cmp(Student a, Student b) {
-          return a.name < b.name;
-        }
+        bool cmp(Student a, Student b) { return a.name < b.name; }
 
 大家应该已经注意到了，结构体将各种不同的数据“结合”在了一起，构成了一个新的类型\ ``Student``\ 。我们可以像内置类型一样定义自己的\ ``Student``\ 变量，一个\ ``Student``\ 变量就是一个\ ``Student``\ 类型的实例。使用点操作符可以访问结构体中的某个成员(member)。上面用到的成员都是数据成员，数据成员也叫属性(attribute)。成员使用"``.``"操作符来访问。属性访问起来跟普通的变量没什么区别。例子在下面。
 
