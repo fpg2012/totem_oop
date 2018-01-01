@@ -96,7 +96,7 @@ this
 
     class Student {
      public:
-     // ... 省略构造函数等一堆方法
+      // ... 省略构造函数等一堆方法
       void join(Course *course)；
      private:
       // ... 省略一堆属性
@@ -108,7 +108,7 @@ this
 
 当中一些函数的实现
 
-..code:: c++
+.. code:: c++
 
     void Course::addStudent(Student *student) { members_.push_back(student); }
 
@@ -160,7 +160,7 @@ this
     
     上面的例子完整的代码见 github_
 
-    .._github: https://github.com/fpg2012/totem_oop/examples/example1.cpp
+    .. _github: https://github.com/fpg2012/totem_oop/blob/master/examples/example1.cpp
 
 ..
 

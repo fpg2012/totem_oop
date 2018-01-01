@@ -14,7 +14,7 @@
 
 using namespace std;
 
-// ÖØÒªµÄÇ°ÖÃÉùÃ÷ 
+// ï¿½ï¿½Òªï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 class Course;
 
 class Student {
@@ -55,7 +55,7 @@ void Course::printMembers () const {
 
 void Student::joinCourse(Course *course) {
   course_ = course;
-  // ÕâÀïÓÃÁËthis 
+  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½this 
   course->addStudent(this);
 }
 
@@ -67,5 +67,5 @@ int main(){
   c.joinCourse(&math);
   oi.printMembers();
   math.printMembers();
-	return 0;
+  return 0;
 }
