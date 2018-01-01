@@ -48,8 +48,8 @@
 .. code:: c++
 
     class Student {
-     public:
       using number_type = std::string;
+     public:
       // ... 省略构造函数等一堆方法
      private:
       // no_存放学生的号数
