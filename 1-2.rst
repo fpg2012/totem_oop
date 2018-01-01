@@ -73,19 +73,15 @@ this
 
 每个Course类中members_成员存储所有选这门课的学生。以下是Course类。
 
-.. note::
-
-    下面那个例子我还没有测试，可能有错误。目测坑很多。
-
-..
-
-.. code::
+.. code:: c++
 
     // 课程类，由于Class和关键字class太像，所以用MyClass取而代之
     class Course {
      public:
       // ... 省略构造函数等一堆方法
-      void addStudent(const Student* student) { members_.push_back(student); }
+      void addStudent(Student* student)
+      // 输出所有选该课的学生的名字，留意一下const的位置
+      void printMembers () const;
      private:
       // ... 省略一堆属性
       // members保存指向选这门课的学生的指针
@@ -96,15 +92,12 @@ this
 
 以下是Student类，我们添加了一个join函数。
 
-.. code::
+.. code:: c++
 
     class Student {
      public:
      // ... 省略构造函数等一堆方法
-      void join(const Course *course) {
-        course_ = course;
-        course->addStudent(this); // 注意这个this，它指向调用join的那个对象的指针
-      }
+      void join(Course *course)；
      private:
       // ... 省略一堆属性
       // course_保存指向所选课的指针
@@ -113,14 +106,61 @@ this
 
 ..
 
+当中一些函数的实现
+
+..code:: c++
+
+    void Course::addStudent(Student *student) { members_.push_back(student); }
+
+    void Course::printMembers () const {
+      cout << "Members of " << name_ << " :" << endl;
+      for(auto stu : members_) {
+        cout << stu->getName() << endl;
+      }
+      cout << endl;
+    }
+
+    void Student::joinCourse(Course *course) {
+      course_ = course;
+      // 这里用了this 
+      course->addStudent(this);
+    }
+
+..
+
 下面是使用join和addStudent。
 
 .. code:: c++
 
-    Student nth("nth233"); // 假设我们已经定义了一个构造函数，可以直接初始化学生的姓名
-    Course noip("noip"); // 假设我们已经定义了一个函数，可以直接初始化课程的名字
-    Course noip_p = &noip;
-    nth.join(noip_p);
+    Student a("Wallace"), b("Einstain"), c("Newton");
+    Course oi("Oi"), math("Math");
+    a.joinCourse(&oi);
+    b.joinCourse(&math);
+    c.joinCourse(&math);
+    oi.printMembers();
+    math.printMembers();
+    return 0;
+
+..
+
+输出如下
+
+.. code::
+
+    Members of Oi :
+    Wallace
+
+    Members of Math :
+    Einstain
+    Newton
+
+..
+
+.. note::
+    
+    上面的例子完整的代码见 github_
+
+    .._github: https://github.com/fpg2012/totem_oop/examples/example1.cpp
 
 ..
 
