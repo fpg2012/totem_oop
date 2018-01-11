@@ -21,13 +21,21 @@
     std::vector<std::string> name, tel, birthplace;
     // 历次考试成绩
     std::vector<std::vector<double> > results;
-    // 性别，不要使用vector<bool>，这是个坑！vector<bool>不是标准库容器，详情自行搜索
+    // 性别，不要使用vector<bool>，这是个坑！
     bool sex[kMax];
 
     // 输出第i个学生的名字等信息
     printf("姓名: %s\n电话: %s\n籍贯: %s", name[i].c_str(), tel[i].c_str(), birthplace[i].c_str());
 
 这样写似乎能够应付只是简单存储的情况。但是，如果你要按照名字字典序给学生们排序，那就很蛋疼了（并不是做不到，而是没有必要那样做）。
+
+.. note::
+
+    默认的标准库中对 vector<bool> 进行了奇怪的封装，在内部实现中，每一个 bool 对应的是一个 bit 而非 byte 。
+    这可能导致我们无法进行一些正常操作：一个 bit 是无法创建指针和引用的。
+    如果需要与 vector<bool> 一样省空间的 bool 队列，可以使用 bitcase ，反之可以使用 deque<bool>。
+
+..
 
 于是，出现了结构体来应付这种情况，上面的代码可以写成下面那样
 
@@ -128,7 +136,7 @@
 
 .. note::
 
-    这个例子只是为了引入，大家看看就好，Google的代码风格要求在\ **只有**\ 数据成员时才使用结构体，否则使用class。我们后面会讲
+    这个例子只是为了引入，大家看看就好，Google的代码风格要求在\ **只有**\ 数据成员时才使用结构体，否则使用class。我们后面会讲。
 
 ..
 
@@ -220,10 +228,15 @@ foo.cc中
     class Foo {
      public:
       // 这就是构造函数
-      Foo(int a, int b, int c, std::string d) : a_(a), b_(b), c_(c), d_(d) { printf("Constructor!\n"); }
-      const int getA() { return a_; }
+      Foo(int a, int b, int c, std::string d) : a_(a), b_(b), c_(c), d_(d) {      printf("Constructor!\n"); 
+      }
+      const int getA() {
+        return a_;
+      }
       // ... BCD略
-      void setA(const int a) { a_ = a; }
+      void setA(const int a) {
+        a_ = a;
+      }
       // ... BCD略
 
      private:
@@ -385,11 +398,15 @@ main.cc的某处，我们在这里使用compare1和compare2
     class Bar;
 
     class Foo {
-      public:
-       void func1(const Bar a) { printf("%d %d %d\n", a.a_, a.b_, a.c_); }
-       void func2(const Bar a) { printf("%d %d %d\n", a.a_, a.b_, a.c_); }
-      private:
-       int a_, b_, c_;
+     public:
+      void func1(const Bar a) {
+        printf("%d %d %d\n", a.a_, a.b_, a.c_);
+       }
+      void func2(const Bar a) {
+        printf("%d %d %d\n", a.a_, a.b_, a.c_);
+      }
+     private:
+      int a_, b_, c_;
     };
 
     class Bar {
@@ -418,11 +435,15 @@ main.cc的某处，我们在这里使用compare1和compare2
     class Bar;
 
     class Foo {
-      public:
-       void func1(const Bar a) { printf("%d %d %d\n", a.a_, a.b_, a.c_); }
-       void func2(const Bar a) { printf("%d %d %d\n", a.a_, a.b_, a.c_); }
-      private:
-       int a_, b_, c_;
+     public:
+      void func1(const Bar a) {
+        printf("%d %d %d\n", a.a_, a.b_, a.c_);
+       }
+      void func2(const Bar a) {
+        printf("%d %d %d\n", a.a_, a.b_, a.c_);
+      }
+     private:
+      int a_, b_, c_;
     };
 
     class Bar {

@@ -161,7 +161,7 @@
 <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">name</span><span class="p">,</span> <span class="n">tel</span><span class="p">,</span> <span class="n">birthplace</span><span class="p">;</span>
 <span class="c1">// 历次考试成绩</span>
 <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">results</span><span class="p">;</span>
-<span class="c1">// 性别，不要使用vector&lt;bool&gt;，这是个坑！vector&lt;bool&gt;不是标准库容器，详情自行搜索</span>
+<span class="c1">// 性别，不要使用vector&lt;bool&gt;，这是个坑！</span>
 <span class="kt">bool</span> <span class="n">sex</span><span class="p">[</span><span class="n">kMax</span><span class="p">];</span>
 
 <span class="c1">// 输出第i个学生的名字等信息</span>
@@ -169,6 +169,12 @@
 </pre></div>
 </div>
 <p>这样写似乎能够应付只是简单存储的情况。但是，如果你要按照名字字典序给学生们排序，那就很蛋疼了（并不是做不到，而是没有必要那样做）。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">默认的标准库中对 vector&lt;bool&gt; 进行了奇怪的封装，在内部实现中，每一个 bool 对应的是一个 bit 而非 byte 。
+这可能导致我们无法进行一些正常操作：一个 bit 是无法创建指针和引用的。
+如果需要与 vector&lt;bool&gt; 一样省空间的 bool 队列，可以使用 bitcase ，反之可以使用 deque&lt;bool&gt;。</p>
+</div>
 <p>于是，出现了结构体来应付这种情况，上面的代码可以写成下面那样</p>
 <div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="c1">// 使用struct关键字定义一个Student结构体，这个Student是我们自己定义的类型</span>
 <span class="c1">// 强调！struct后面的分号一定不能漏！！！</span>
@@ -251,7 +257,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">这个例子只是为了引入，大家看看就好，Google的代码风格要求在<strong>只有</strong>数据成员时才使用结构体，否则使用class。我们后面会讲</p>
+<p class="last">这个例子只是为了引入，大家看看就好，Google的代码风格要求在<strong>只有</strong>数据成员时才使用结构体，否则使用class。我们后面会讲。</p>
 </div>
 <p>我们在结构体中定义了<code class="docutils literal"><span class="pre">getAverage()</span></code>函数，这个函数也是结构体的成员，叫做成员函数，也叫方法(method)。</p>
 <p>用类也可以做到上面的效果，事实上struct定义的结构体也是类。类的定义使用<code class="docutils literal"><span class="pre">class</span></code>关键字。<code class="docutils literal"><span class="pre">public:</span></code>表示以下的部分可以被外部访问，<code class="docutils literal"><span class="pre">private</span></code>表示以下成员只能被类的其他成员访问。struct中默认都是
@@ -322,10 +328,15 @@ ps. 后面为了演示方便示例代码可能不会这样写</p>
 <div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
  <span class="k">public</span><span class="o">:</span>
   <span class="c1">// 这就是构造函数</span>
-  <span class="n">Foo</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">d</span><span class="p">)</span> <span class="o">:</span> <span class="n">a_</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">b_</span><span class="p">(</span><span class="n">b</span><span class="p">),</span> <span class="n">c_</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">d_</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="p">{</span> <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Constructor!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span> <span class="p">}</span>
-  <span class="k">const</span> <span class="kt">int</span> <span class="n">getA</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">a_</span><span class="p">;</span> <span class="p">}</span>
+  <span class="n">Foo</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">d</span><span class="p">)</span> <span class="o">:</span> <span class="n">a_</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">b_</span><span class="p">(</span><span class="n">b</span><span class="p">),</span> <span class="n">c_</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">d_</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="p">{</span>      <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Constructor!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">const</span> <span class="kt">int</span> <span class="n">getA</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">a_</span><span class="p">;</span>
+  <span class="p">}</span>
   <span class="c1">// ... BCD略</span>
-  <span class="kt">void</span> <span class="n">setA</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span> <span class="n">a_</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span> <span class="p">}</span>
+  <span class="kt">void</span> <span class="n">setA</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">a_</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+  <span class="p">}</span>
   <span class="c1">// ... BCD略</span>
 
  <span class="k">private</span><span class="o">:</span>
@@ -449,11 +460,15 @@ ps. 后面为了演示方便示例代码可能不会这样写</p>
 <span class="k">class</span> <span class="nc">Bar</span><span class="p">;</span>
 
 <span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
-  <span class="k">public</span><span class="o">:</span>
-   <span class="kt">void</span> <span class="n">func1</span><span class="p">(</span><span class="k">const</span> <span class="n">Bar</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span> <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d %d %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">a_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">b_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">c_</span><span class="p">);</span> <span class="p">}</span>
-   <span class="kt">void</span> <span class="n">func2</span><span class="p">(</span><span class="k">const</span> <span class="n">Bar</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span> <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d %d %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">a_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">b_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">c_</span><span class="p">);</span> <span class="p">}</span>
-  <span class="k">private</span><span class="o">:</span>
-   <span class="kt">int</span> <span class="n">a_</span><span class="p">,</span> <span class="n">b_</span><span class="p">,</span> <span class="n">c_</span><span class="p">;</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="kt">void</span> <span class="n">func1</span><span class="p">(</span><span class="k">const</span> <span class="n">Bar</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d %d %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">a_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">b_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">c_</span><span class="p">);</span>
+   <span class="p">}</span>
+  <span class="kt">void</span> <span class="n">func2</span><span class="p">(</span><span class="k">const</span> <span class="n">Bar</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d %d %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">a_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">b_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">c_</span><span class="p">);</span>
+  <span class="p">}</span>
+ <span class="k">private</span><span class="o">:</span>
+  <span class="kt">int</span> <span class="n">a_</span><span class="p">,</span> <span class="n">b_</span><span class="p">,</span> <span class="n">c_</span><span class="p">;</span>
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="nc">Bar</span> <span class="p">{</span>
@@ -478,11 +493,15 @@ ps. 后面为了演示方便示例代码可能不会这样写</p>
 <span class="k">class</span> <span class="nc">Bar</span><span class="p">;</span>
 
 <span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
-  <span class="k">public</span><span class="o">:</span>
-   <span class="kt">void</span> <span class="n">func1</span><span class="p">(</span><span class="k">const</span> <span class="n">Bar</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span> <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d %d %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">a_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">b_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">c_</span><span class="p">);</span> <span class="p">}</span>
-   <span class="kt">void</span> <span class="n">func2</span><span class="p">(</span><span class="k">const</span> <span class="n">Bar</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span> <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d %d %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">a_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">b_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">c_</span><span class="p">);</span> <span class="p">}</span>
-  <span class="k">private</span><span class="o">:</span>
-   <span class="kt">int</span> <span class="n">a_</span><span class="p">,</span> <span class="n">b_</span><span class="p">,</span> <span class="n">c_</span><span class="p">;</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="kt">void</span> <span class="n">func1</span><span class="p">(</span><span class="k">const</span> <span class="n">Bar</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d %d %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">a_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">b_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">c_</span><span class="p">);</span>
+   <span class="p">}</span>
+  <span class="kt">void</span> <span class="n">func2</span><span class="p">(</span><span class="k">const</span> <span class="n">Bar</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d %d %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">a_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">b_</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">c_</span><span class="p">);</span>
+  <span class="p">}</span>
+ <span class="k">private</span><span class="o">:</span>
+  <span class="kt">int</span> <span class="n">a_</span><span class="p">,</span> <span class="n">b_</span><span class="p">,</span> <span class="n">c_</span><span class="p">;</span>
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="nc">Bar</span> <span class="p">{</span>

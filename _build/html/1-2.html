@@ -88,7 +88,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#this">this</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id3">令成员为内联函数</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id4">可变数据成员</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">类类型</a></li>
 </ul>
 </li>
 </ul>
@@ -153,7 +152,7 @@
 
 <span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">pii</span><span class="p">;</span>
 <span class="n">pii</span> <span class="n">a</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_pair</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-<span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_pair</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span> <span class="c1">// 抛去变量名的不同，与上面那条语句等价</span>
+<span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_pair</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span> <span class="c1">// 抛去变量名的不同，与上面那条语句等价</span>
 </pre></div>
 </div>
 <p>C++11还提供了另一种定义类型别名的方法，那就是使用<code class="docutils literal"><span class="pre">using</span></code>关键字。下面的例子根上面完全等价。</p>
@@ -169,8 +168,8 @@
 </div>
 <p>我们可以在类中使用类型别名，这个别名叫做类的类型成员。下面以<code class="docutils literal"><span class="pre">using</span></code>为例。</p>
 <div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Student</span> <span class="p">{</span>
- <span class="k">public</span><span class="o">:</span>
   <span class="k">using</span> <span class="n">number_type</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">;</span>
+ <span class="k">public</span><span class="o">:</span>
   <span class="c1">// ... 省略构造函数等一堆方法</span>
  <span class="k">private</span><span class="o">:</span>
   <span class="c1">// no_存放学生的号数</span>
@@ -189,36 +188,73 @@
 <p>为了获得调用成员函数的对象，this指针应运而成。相当于python中的self。下面还是举个例子。
 这个例子中，我们假设，学校为了应付达标校检查而临时开了选修课，每个学生必须并且只能参与一门选修课。为了记录每个学生选的课，我们的学生管理程序必须做出更改。</p>
 <p>每个Course类中members_成员存储所有选这门课的学生。以下是Course类。</p>
-<div class="code highlight-cpp"><div class="highlight"><pre><span class="c1">// 课程类，由于Class和关键字class太像，所以用MyClass取而代之</span>
+<div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="c1">// 课程类，由于Class和关键字class太像，所以用MyClass取而代之</span>
 <span class="k">class</span> <span class="nc">Course</span> <span class="p">{</span>
  <span class="k">public</span><span class="o">:</span>
   <span class="c1">// ... 省略构造函数等一堆方法</span>
-  <span class="kt">void</span> <span class="n">addStudent</span><span class="p">(</span><span class="k">const</span> <span class="n">Student</span><span class="o">*</span> <span class="n">student</span><span class="p">)</span> <span class="p">{</span> <span class="n">members_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">student</span><span class="p">);</span> <span class="p">}</span>
+  <span class="kt">void</span> <span class="n">addStudent</span><span class="p">(</span><span class="n">Student</span><span class="o">*</span> <span class="n">student</span><span class="p">)</span>
+  <span class="c1">// 输出所有选该课的学生的名字，留意一下const的位置</span>
+  <span class="kt">void</span> <span class="n">printMembers</span> <span class="p">()</span> <span class="k">const</span><span class="p">;</span>
  <span class="k">private</span><span class="o">:</span>
   <span class="c1">// ... 省略一堆属性</span>
-  <span class="c1">// members保存指向这个</span>
+  <span class="c1">// members保存指向选这门课的学生的指针</span>
   <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">*&gt;</span> <span class="n">members_</span><span class="p">;</span>
 <span class="p">};</span>
 </pre></div>
 </div>
 <p>以下是Student类，我们添加了一个join函数。</p>
-<div class="code highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Student</span> <span class="p">{</span>
- <span class="k">public</span><span class="o">:</span>
-  <span class="kt">void</span> <span class="n">join</span><span class="p">(</span><span class="k">const</span> <span class="n">Course</span> <span class="o">*</span><span class="n">course</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">course_</span> <span class="o">=</span> <span class="n">course</span><span class="p">;</span>
-    <span class="n">course</span><span class="o">-&gt;</span><span class="n">addStudent</span><span class="p">(</span><span class="k">this</span><span class="p">);</span> <span class="c1">// 注意这个this，它指向调用join的那个对象的指针</span>
+<div class="code c++ highlight-cpp"><div class="highlight"><pre>class Student {
+ public:
+  // ... 省略构造函数等一堆方法
+  void join(Course *course)；
+ private:
+  // ... 省略一堆属性
+  // course_保存指向所选课的指针
+  Course *course_;
+};
+</pre></div>
+</div>
+<p>当中一些函数的实现</p>
+<div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="kt">void</span> <span class="n">Course</span><span class="o">::</span><span class="n">addStudent</span><span class="p">(</span><span class="n">Student</span> <span class="o">*</span><span class="n">student</span><span class="p">)</span> <span class="p">{</span> <span class="n">members_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">student</span><span class="p">);</span> <span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">Course</span><span class="o">::</span><span class="n">printMembers</span> <span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Members of &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">name_</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; :&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">stu</span> <span class="p">:</span> <span class="n">members_</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">stu</span><span class="o">-&gt;</span><span class="n">getName</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
   <span class="p">}</span>
- <span class="k">private</span><span class="o">:</span>
-  <span class="n">Course</span> <span class="o">*</span><span class="n">course_</span><span class="p">;</span>
-<span class="p">};</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">Student</span><span class="o">::</span><span class="n">joinCourse</span><span class="p">(</span><span class="n">Course</span> <span class="o">*</span><span class="n">course</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">course_</span> <span class="o">=</span> <span class="n">course</span><span class="p">;</span>
+  <span class="c1">// 这里用了this</span>
+  <span class="n">course</span><span class="o">-&gt;</span><span class="n">addStudent</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>下面是使用join和addStudent。</p>
-<div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="n">Student</span> <span class="nf">nth</span><span class="p">(</span><span class="s">&quot;nth233&quot;</span><span class="p">);</span> <span class="c1">// 假设我们已经定义了一个构造函数，可以直接初始化学生的姓名</span>
-<span class="n">Course</span> <span class="nf">noip</span><span class="p">(</span><span class="s">&quot;noip&quot;</span><span class="p">);</span> <span class="c1">// 假设我们已经定义了一个函数，可以直接初始化课程的名字</span>
-<span class="n">Course</span> <span class="n">noip_p</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">noip</span><span class="p">;</span>
-<span class="n">nth</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">noip_p</span><span class="p">);</span>
+<div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="n">Student</span> <span class="nf">a</span><span class="p">(</span><span class="s">&quot;Wallace&quot;</span><span class="p">),</span> <span class="n">b</span><span class="p">(</span><span class="s">&quot;Einstain&quot;</span><span class="p">),</span> <span class="n">c</span><span class="p">(</span><span class="s">&quot;Newton&quot;</span><span class="p">);</span>
+<span class="n">Course</span> <span class="nf">oi</span><span class="p">(</span><span class="s">&quot;Oi&quot;</span><span class="p">),</span> <span class="n">math</span><span class="p">(</span><span class="s">&quot;Math&quot;</span><span class="p">);</span>
+<span class="n">a</span><span class="p">.</span><span class="n">joinCourse</span><span class="p">(</span><span class="o">&amp;</span><span class="n">oi</span><span class="p">);</span>
+<span class="n">b</span><span class="p">.</span><span class="n">joinCourse</span><span class="p">(</span><span class="o">&amp;</span><span class="n">math</span><span class="p">);</span>
+<span class="n">c</span><span class="p">.</span><span class="n">joinCourse</span><span class="p">(</span><span class="o">&amp;</span><span class="n">math</span><span class="p">);</span>
+<span class="n">oi</span><span class="p">.</span><span class="n">printMembers</span><span class="p">();</span>
+<span class="n">math</span><span class="p">.</span><span class="n">printMembers</span><span class="p">();</span>
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 </pre></div>
+</div>
+<p>输出如下</p>
+<div class="code highlight-cpp"><div class="highlight"><pre><span class="n">Members</span> <span class="n">of</span> <span class="nl">Oi</span> <span class="p">:</span>
+<span class="n">Wallace</span>
+
+<span class="n">Members</span> <span class="n">of</span> <span class="nl">Math</span> <span class="p">:</span>
+<span class="n">Einstain</span>
+<span class="n">Newton</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">上面的例子完整的代码见 <a class="reference external" href="https://github.com/fpg2012/totem_oop/blob/master/examples/example1.cpp">github</a></p>
 </div>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
@@ -249,14 +285,14 @@
 这时候我们就需要可变数据成员(mutable data member)。可变数据成员使用<code class="docutils literal"><span class="pre">mutable</span></code>关键字指定，被指定为<code class="docutils literal"><span class="pre">mutable</span></code>的成员永远都不是const，也就意味着它永远都可以被修改。</p>
 <div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
  <span class="k">public</span><span class="o">:</span>
-  <span class="kt">void</span> <span class="n">func</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">getCount</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
     <span class="n">count</span><span class="p">();</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span> <span class="n">count_</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">count_</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">count_</span><span class="p">;</span>
   <span class="p">}</span>
-  <span class="k">const</span> <span class="kt">int</span> <span class="n">getCount</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">count_</span><span class="p">;</span> <span class="p">}</span>
  <span class="k">private</span><span class="o">:</span>
-  <span class="k">mutable</span> <span class="kt">int</span> <span class="n">count_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// 初始值为0，保存函数func被调用的次数</span>
-  <span class="kt">void</span> <span class="nf">count</span><span class="p">()</span> <span class="p">{</span> <span class="o">++</span><span class="n">count_</span><span class="p">;</span> <span class="p">}</span>
+  <span class="k">mutable</span> <span class="kt">int</span> <span class="n">count_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// 初始值为0，保存函数getCount被调用的次数</span>
+  <span class="kt">void</span> <span class="nf">count</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="o">++</span><span class="n">count_</span><span class="p">;</span> <span class="p">}</span> <span class="c1">// 这里const不能漏掉，否则常量对象无法调用这个函数</span>
 <span class="p">};</span>
 </pre></div>
 </div>
@@ -284,49 +320,6 @@
 <span class="mi">98</span>
 <span class="mi">99</span>
 <span class="mi">100</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="id5">
-<h2>类类型<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<p>我们之前已经说过，定义一个类，就定义了一个新的类型。对于两个类来说，即使他们的成员完全一样，也是两个不同的类型。</p>
-<div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">Foo</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
-<span class="p">};</span>
-<span class="k">struct</span> <span class="n">Bar</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
-<span class="p">};</span>
-
-<span class="n">Foo</span> <span class="n">a</span><span class="p">;</span>
-<span class="n">Bar</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span> <span class="c1">// 错误，a与b类型不同，而且在本例中无法相互转换</span>
-</pre></div>
-</div>
-<p>关于类型转换的那一堆东西，我们以后再讲。在本例中，如果想让Foo类型和Bar类型相互转换，要定义一个相关的构造函数，或者重载<code class="docutils literal"><span class="pre">=</span></code>运算符。</p>
-<div class="code highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">Foo</span> <span class="p">{</span>
-  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Foo</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Bar</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">);</span>
-  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Bar</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Bar</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">);</span>
-  <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
-<span class="p">};</span>
-<span class="k">struct</span> <span class="n">Bar</span> <span class="p">{</span>
-  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Foo</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Bar</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">);</span>
-  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Bar</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Bar</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">);</span>
-  <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
-<span class="p">};</span>
-
-<span class="kt">bool</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Foo</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Bar</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">a</span><span class="p">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">a</span><span class="p">;</span>
-  <span class="n">a</span><span class="p">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">a</span><span class="p">;</span>
-  <span class="n">a</span><span class="p">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">c</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">bool</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Bar</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Bar</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">a</span><span class="p">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">a</span><span class="p">;</span>
-  <span class="n">a</span><span class="p">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">a</span><span class="p">;</span>
-  <span class="n">a</span><span class="p">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">c</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="n">Foo</span> <span class="n">a</span><span class="p">;</span>
-<span class="n">Bar</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span> <span class="c1">// ok</span>
 </pre></div>
 </div>
 </div>

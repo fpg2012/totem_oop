@@ -23,7 +23,7 @@
 
         typedef std::pair<int, int> pii;
         pii a = std::make_pair(100, 10); 
-        std::pair<int, int> a = std::make_pair(100, 10); // 抛去变量名的不同，与上面那条语句等价
+        std::pair<int, int> b = std::make_pair(100, 10); // 抛去变量名的不同，与上面那条语句等价
     
     ..
 
@@ -48,8 +48,8 @@
 .. code:: c++
 
     class Student {
-     public:
       using number_type = std::string;
+     public:
       // ... 省略构造函数等一堆方法
      private:
       // no_存放学生的号数
@@ -73,16 +73,18 @@ this
 
 每个Course类中members_成员存储所有选这门课的学生。以下是Course类。
 
-.. code::
+.. code:: c++
 
     // 课程类，由于Class和关键字class太像，所以用MyClass取而代之
     class Course {
      public:
       // ... 省略构造函数等一堆方法
-      void addStudent(const Student* student) { members_.push_back(student); }
+      void addStudent(Student* student)
+      // 输出所有选该课的学生的名字，留意一下const的位置
+      void printMembers () const;
      private:
       // ... 省略一堆属性
-      // members保存指向这个
+      // members保存指向选这门课的学生的指针
       std::vector<Student*> members_;
     };
 
@@ -90,17 +92,39 @@ this
 
 以下是Student类，我们添加了一个join函数。
 
-.. code::
+.. code:: c++
 
     class Student {
      public:
-      void join(const Course *course) {
-        course_ = course;
-        course->addStudent(this); // 注意这个this，它指向调用join的那个对象的指针
-      }
+      // ... 省略构造函数等一堆方法
+      void join(Course *course)；
      private:
+      // ... 省略一堆属性
+      // course_保存指向所选课的指针
       Course *course_;
     };
+
+..
+
+当中一些函数的实现
+
+.. code:: c++
+
+    void Course::addStudent(Student *student) { members_.push_back(student); }
+
+    void Course::printMembers () const {
+      cout << "Members of " << name_ << " :" << endl;
+      for(auto stu : members_) {
+        cout << stu->getName() << endl;
+      }
+      cout << endl;
+    }
+
+    void Student::joinCourse(Course *course) {
+      course_ = course;
+      // 这里用了this 
+      course->addStudent(this);
+    }
 
 ..
 
@@ -108,10 +132,35 @@ this
 
 .. code:: c++
 
-    Student nth("nth233"); // 假设我们已经定义了一个构造函数，可以直接初始化学生的姓名
-    Course noip("noip"); // 假设我们已经定义了一个函数，可以直接初始化课程的名字
-    Course noip_p = &noip;
-    nth.join(noip_p);
+    Student a("Wallace"), b("Einstain"), c("Newton");
+    Course oi("Oi"), math("Math");
+    a.joinCourse(&oi);
+    b.joinCourse(&math);
+    c.joinCourse(&math);
+    oi.printMembers();
+    math.printMembers();
+    return 0;
+
+..
+
+输出如下
+
+.. code::
+
+    Members of Oi :
+    Wallace
+
+    Members of Math :
+    Einstain
+    Newton
+
+..
+
+.. note::
+    
+    上面的例子完整的代码见 github_
+
+    .. _github: https://github.com/fpg2012/totem_oop/blob/master/examples/example1.cpp
 
 ..
 
@@ -158,14 +207,14 @@ this
 
     class Foo {
      public:
-      void func() {
+      int getCount() const {
         count();
-        printf("%d", count_);
+        printf("%d\n", count_);
+        return count_;
       }
-      const int getCount() const { return count_; }
      private:
-      mutable int count_ = 0; // 初始值为0，保存函数func被调用的次数
-      void count() { ++count_; }
+      mutable int count_ = 0; // 初始值为0，保存函数getCount被调用的次数
+      void count() const { ++count_; } // 这里const不能漏掉，否则常量对象无法调用这个函数
     };
 
 ..
@@ -201,56 +250,5 @@ this
     98
     99
     100
-
-..
-
-类类型
----------------------------------------
-
-我们之前已经说过，定义一个类，就定义了一个新的类型。对于两个类来说，即使他们的成员完全一样，也是两个不同的类型。
-
-.. code:: c++
-
-    struct Foo {
-      int a, b, c;
-    };
-    struct Bar {
-      int a, b, c;
-    };
-
-    Foo a;
-    Bar b = a; // 错误，a与b类型不同，而且在本例中无法相互转换
-
-..
-
-关于类型转换的那一堆东西，我们以后再讲。在本例中，如果想让Foo类型和Bar类型相互转换，要定义一个相关的构造函数，或者重载\ ``=``\运算符。
-
-.. code::
-    
-    struct Foo {
-      friend bool operator=(Foo &a, const Bar &b);
-      friend bool operator=(Bar &a, const Bar &b);
-      int a, b, c;
-    };
-    struct Bar {
-      friend bool operator=(Foo &a, const Bar &b);
-      friend bool operator=(Bar &a, const Bar &b);
-      int a, b, c;
-    };
-
-    bool operator=(Foo &a, const Bar &b) {
-      a.a = b.a;
-      a.b = b.a;
-      a.c = b.c;
-    }
-
-    bool operator=(Bar &a, const Bar &b) {
-      a.a = b.a;
-      a.b = b.a;
-      a.c = b.c;
-    }
-
-    Foo a;
-    Bar b = a; // ok
 
 ..

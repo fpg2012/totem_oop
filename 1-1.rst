@@ -228,7 +228,8 @@ foo.cc中
     class Foo {
      public:
       // 这就是构造函数
-      Foo(int a, int b, int c, std::string d) : a_(a), b_(b), c_(c), d_(d) { printf("Constructor!\n"); }
+      Foo(int a, int b, int c, std::string d) : a_(a), b_(b), c_(c), d_(d) {      printf("Constructor!\n"); 
+      }
       const int getA() {
         return a_;
       }

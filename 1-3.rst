@@ -1,0 +1,254 @@
+又是构造函数和析构函数
+=======================
+
+构造函数初始值列表
+---------------------------------
+
+我们之前的例子中有出现这样的代码
+
+.. code:: c++
+
+    Foo(int a, int b, int c, std::string d) : a_(a), b_(b), c_(c), d_(d) {
+      printf("Constructor!\n"); 
+    }
+
+..
+
+其中构造函数冒号后面的那串就叫做初始值列表，它的意义就是方便地把参数列表中的变量赋给类的成员。比如上面的例子中，\ ``a``\的值被赋给\`` a_``\，\ ``b``\的值被赋给\ ``b_``\等等。
+
+成员初始化顺序
+:::::::::::::::::::::::::::::
+
+\ **类的成员按照他们定义的顺序初始化**\。所以成员初始化的顺序偶尔是需要注意的。下面是C++ Primer中的例子。
+
+.. code:: c++
+
+    class X {
+      int i, j;
+     public:
+      X(int val) : j(val), i(j) {} // i在j之前被初始化，行为是未定义的
+    }
+
+..
+
+虽然好像是把\ ``val``\的值赋给\ ``j``\，然后把\ ``j``\的值赋给\ ``i``\，但是实际上是先初始化\ ``i``\。
+
+默认实参和构造函数
+::::::::::::::::::::::::::::::
+
+和普通的函数一样，构造函数也可以有默认的参数，例如
+
+.. code:: c++
+
+    Student::Student(std::string name = "anonymous") : name_(name) {}
+
+..
+
+这时，如果我们这样定义一个\ ``Student``\变量
+
+.. code:: c++
+
+    Student stu1();
+    cout << stu1.getName() << endl;
+
+..
+
+输出如下
+
+::
+
+    anonymous
+
+..
+
+特别地，上面那个构造函数为其所有参数都提供了默认实参，实际上也定义了一个\ *默认构造函数*\。
+
+委托构造函数
+---------------------------------
+
+
+
+类类型
+---------------------------------
+
+我们之前已经说过，定义一个类，就定义了一个新的类型。对于两个类来说，即使他们的成员完全一样，也是两个不同的类型。
+
+.. code:: c++
+
+    struct Foo {
+      int a, b, c;
+    };
+    struct Bar {
+      int a, b, c;
+    };
+
+    Foo a;
+    Bar b = a; // 错误，a与b类型不同，而且在本例中无法相互转换
+
+..
+
+类型转换
+----------------------------------
+
+将一个类型转换成另一个类型，就是类型转换。比如
+
+.. code:: c++
+
+    int a = 0;
+    double b = a;
+
+..
+
+大家应该看得出来，在给b赋值的时候发生了类型转换，原因就是b是\ ``double``\类型，而a是\ ``int``\类型，两者类型不同，所以必然会发生类型转换。（这里的“转换”英文大概是“convert”）。
+
+.. note::
+
+    这里再说个题外话，关于显式类型转换。
+    
+    估计各位都已经习惯了C风格的强制类型转换，例如
+
+    .. code:: c++
+
+        int b = 2, c = 3;
+        double a = (double)b / c;
+
+    ..
+
+    C风格的强制类型转换虽然有时候很方便，但是，可读性有时比较低，而且据说比较不安全。所以我们采用C++自己的强制类型转换，例如
+
+    .. code:: c++
+
+        double a = static_cast<double>(b) / c;
+
+    ..
+
+..
+
+\ ``int``\和\ ``double``\是内置类型，C++语言定义了他们间转换的规则。而类类型由我们自己定义，所以他们间的转换也需我们自己定义。具体的定义方式有两种，一种是重载\ ``=``\运算符，还有一种是定义一个构造函数，这叫做\ *转换构造函数(converting constructor)*\。例子在下面。我们假设一些老师会变成学生听课。
+
+.. code:: c++
+
+    class Teacher {
+     public:
+      // 省略一堆方法
+      const std::string getName() const { return name_; }
+     private:
+      std::string name_;
+    };
+
+    struct Foo {
+      std::string name;
+    };
+
+    class Student {
+     public:
+      Student() = default;
+      Student(std::string name); // 事实上定义了一个std::string转化成Student的规则
+      Student(Teacher teacher); // 事实上定义了一个Teacher转化成Student的规则
+      Student(const Student&);
+      ~Student() = default;
+      const std::string getName() const { return name_; }
+      Student &operator=(Foo &foo); // 这定义了Foo转化成Student的规则
+     private:
+      std::string name_;
+    };
+
+    Student::Student(std::string name) : name_(name) {}
+    Student::Student(Teacher teacher) : name_(teacher.getName()) {}
+    Student &Student::operator=(Foo &foo) {
+      name_ = foo.name;
+      return *this;
+    }
+
+..
+
+于是我们把\ ``Teacher``\/\ ``Foo``\/\ ``std::string``\转换成\ ``Student``\就没有障碍了。我们可以这样用。
+
+.. code:: c++
+
+    Foo foo;
+    foo.name = "hello";
+    Teacher b("ello");
+    std::string name = "llo";
+
+    Student student1 = foo;
+    Student student2 = b; // 等价于 Student student2(b);
+    Student student3 = name; // 等价于 Student student3(name);
+
+    cout << student1.getName() << " " 
+         << student2.getName() << " " 
+         << student3.getName() << std::endl;
+..
+
+代码不会报错。输出如下。
+
+::
+
+    hello ello llo
+
+
+..
+
+
+
+
+
+然后说个题外话，我在测试上面那个例子的时候连续踩了几个坑，这里提出一下。大家看看就好，因为这个只是无意中踩到的坑，这里其实可以不用友元解决问题。关于完全类型和不完全类型我们过后再解释。还有就是赋值运算符似乎只能放在类里面。
+
+.. code:: c++
+    
+    // 前置声明，这里由于下面Bar类使用Foo类的时候，Foo类还没有定义，所以必须前置声明
+    class Foo;
+
+    // Bar类，这里Bar类必须先于Foo定义，因为类的声明必须在其成员函数友元声明之前
+    class Bar {
+     public:
+      Bar() = default;
+      Bar(int a, int b, int c) : a_(a), b_(b), c_(c) {}
+      const int getA() { return a_; }
+      const int getB() { return b_; }
+      const int getC() { return c_; }
+      // 这里不能直接定义operator=，因为Foo还是不完全类型
+      Bar &operator=(const Foo &b);
+     private:
+      int a_, b_, c_;
+    };
+
+    class Foo {
+     public:
+      // 友元，令Bar的operator=为友元
+      // 还有一种写法是用"friend class Bar"使整个Bar类为友元，这样只需要声明好Bar类就行，而不需要考虑operator=是否已经定义的问题。
+      friend Bar &Bar::operator=(const Foo &b);
+      Foo() = default;
+      Foo(int a, int b, int c) : a_(a), b_(b), c_(c) {}
+      const int getA() { return a_; }
+      const int getB() { return b_; }
+      const int getC() { return c_; }
+      Foo &operator=(const Foo &b) {
+        a_ = b.a_;
+        b_ = b.b_;
+        c_ = b.c_;
+        return *this;
+      }
+     private:
+      int a_, b_, c_;
+    };
+
+    // 等Foo类定义完以后，才可以定义Bar中的operator=
+    Bar &Bar::operator=(const Foo &b) {
+      a_ = b.a_;
+      b_ = b.b_;
+      c_ = b.c_;
+      return *this;
+    }
+
+    int main() {
+      Foo a(10, 233, 100);
+      Bar b;
+      b = a;
+      printf("%d %d %d\n", b.getA(), b.getB(), b.getC()); // 输出是10 233 100，没有问题
+      return 0;
+    }
+
+..
+
