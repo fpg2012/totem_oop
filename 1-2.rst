@@ -75,7 +75,7 @@ this
 
 .. code:: c++
 
-    // 课程类，由于Class和关键字class太像，所以用MyClass取而代之
+    // 课程类
     class Course {
      public:
       // ... 省略构造函数等一堆方法
