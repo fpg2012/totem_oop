@@ -14,7 +14,7 @@
 
 using namespace std;
 
-// ��Ҫ��ǰ������ 
+// 前置声明必不可少！
 class Course;
 
 class Student {
@@ -55,7 +55,7 @@ void Course::printMembers () const {
 
 void Student::joinCourse(Course *course) {
   course_ = course;
-  // ��������this 
+  // 这里使用了this 
   course->addStudent(this);
 }
 
