@@ -242,7 +242,44 @@
 
 ..
 
+抑制构造函数定义的隐式转换
+:::::::::::::::::::::::::::::
 
+有时候我们需要定义一个构造函数，但是却不希望它定义一个转换规则，这是我们可以使用\ ``explicit``\关键字加以阻止。
+
+.. code:: c++
+
+    class Foo {
+     public:
+      Foo(int a = 0) : a_(a) {}
+      void test() const {
+        std::cout << "this example makes no sense" << std::endl;
+      }
+     private:
+      int a_;
+    };
+
+    class Bar {
+     public:
+      Bar(int a = 1) : a_(a) {}
+      explicit Bar(const Foo foo) : Bar(0) {
+        foo.test();
+      }
+     private:
+      int a_;
+    };
+
+..
+
+使用如下
+
+.. code:: c++
+
+    Foo foo(233);
+    Bar bar1(foo); // 正确，会输出"this example makes no sense"
+    Bar bar2 = foo; // 错误，隐式转换被阻止
+
+..
 
 
 
