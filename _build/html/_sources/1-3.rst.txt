@@ -1,4 +1,4 @@
-又是构造函数和析构函数
+又是构造函数
 =======================
 
 构造函数初始值列表
@@ -63,17 +63,63 @@
 
 特别地，上面那个构造函数为其所有参数都提供了默认实参，实际上也定义了一个\ *默认构造函数*\。
 
-委托构造函数
----------------------------------
+.. tip::
 
-我们先从一个例子开始。我们假定我们已经定义了\ ``Student``\类和\ ``Teacher``\类 
-
-.. code::
-
-
+    如果定义了其他构造函数，那么最好也定义一个默认构造函数。
 
 ..
 
+委托构造函数
+---------------------------------
+
+我们先从一个例子开始。我们假定我们已经定义了\ ``Student``\类。其中有\ ``std::string``\类型的\ ``name_``\属性和\ ``number_``\属性，还有\ ``int``\类型的\ ``age_``\属性和\ ``bool``\型的\ ``sex_``\属性。
+
+下面是\ ``Student``\类的构造函数的实现
+
+.. code:: c++
+
+    // 定义一个构造函数，这里用了初始化列表
+    Student::Student(std::string name, std::string number, int age， bool sex) 
+        : name_(name), 
+          number_(number), 
+          age_(age), 
+          sex_(sex) { std::cout << "hello" << std::endl; }
+
+    // 其余构造函数全部委托给上面那个
+    Student::Student(std::string name) : Student(name, "0", 17, true) {}
+    Student::Student(std::string name, std::string number) 
+        : Student(name, number, 17, true) {}
+    Student::Student(std::string name, std::string number, bool sex)
+        : Student(name, number, 17, sex) {}
+    // 默认构造函数
+    Student::Student() : Student("anonymous", "0", 17, true) {}
+    // 注意下面这个构造函数
+    Student::Student(std::ostream &is) : Student() {
+      is << "test!" << std::endl;
+    }
+
+..
+
+后四个构造函数就是\ *委托构造函数(delegating constructor)*\。这是C++ 11的新特性。不难发现，所谓委托构造函数，其实就是调用其他的构造函数来初始化。
+
+在调用后三个构造函数的某个时，会依次调用受委托的函数的初始化列表和函数体，然后才执行委托者的函数体。比如上面的那个例子，如果我们这样调用。
+
+.. code:: c++
+
+    Student stu1(std::cout);
+
+..
+
+这时会获得输出
+
+::
+
+    hello
+    test!
+
+..
+
+委托构造函数在后面讲继承的时候还会用到。
 
 类类型
 ---------------------------------
@@ -196,11 +242,50 @@
 
 ..
 
+抑制构造函数定义的隐式转换
+:::::::::::::::::::::::::::::
+
+有时候我们需要定义一个构造函数，但是却不希望它定义一个转换规则，这是我们可以使用\ ``explicit``\关键字加以阻止。
+
+.. code:: c++
+
+    class Foo {
+     public:
+      Foo(int a = 0) : a_(a) {}
+      void test() const {
+        std::cout << "this example makes no sense" << std::endl;
+      }
+     private:
+      int a_;
+    };
+
+    class Bar {
+     public:
+      Bar(int a = 1) : a_(a) {}
+      explicit Bar(const Foo foo) : Bar(0) {
+        foo.test();
+      }
+     private:
+      int a_;
+    };
+
+..
+
+使用如下
+
+.. code:: c++
+
+    Foo foo(233);
+    Bar bar1(foo); // 正确，会输出"this example makes no sense"
+    Bar bar2 = foo; // 错误，隐式转换被阻止
+
+..
 
 
 
-
-然后说个题外话，我在测试上面那个例子的时候连续踩了几个坑，这里提出一下。大家看看就好，因为这个只是无意中踩到的坑，这里其实可以不用友元解决问题。关于完全类型和不完全类型我们过后再解释。还有就是赋值运算符似乎只能放在类里面。
+题外话
+------------------
+我在测试上面某个例子的时候连续踩了几个坑，这里提出一下。大家看看就好，因为这个只是无意中踩到的坑，这里其实可以不用友元解决问题。关于完全类型和不完全类型我们过后再解释。还有就是赋值运算符似乎只能放在类里面。
 
 .. code:: c++
     

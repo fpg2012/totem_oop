@@ -34,6 +34,7 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="totem_oop  documentation" href="index.html"/>
+        <link rel="next" title="又是构造函数和析构函数" href="1-3.html"/>
         <link rel="prev" title="面向对象起步" href="1-1.html"/> 
 
   
@@ -90,6 +91,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#id4">可变数据成员</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="1-3.html">又是构造函数和析构函数</a></li>
 </ul>
 
             
@@ -188,7 +190,7 @@
 <p>为了获得调用成员函数的对象，this指针应运而成。相当于python中的self。下面还是举个例子。
 这个例子中，我们假设，学校为了应付达标校检查而临时开了选修课，每个学生必须并且只能参与一门选修课。为了记录每个学生选的课，我们的学生管理程序必须做出更改。</p>
 <p>每个Course类中members_成员存储所有选这门课的学生。以下是Course类。</p>
-<div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="c1">// 课程类，由于Class和关键字class太像，所以用MyClass取而代之</span>
+<div class="code c++ highlight-cpp"><div class="highlight"><pre><span class="c1">// 课程类</span>
 <span class="k">class</span> <span class="nc">Course</span> <span class="p">{</span>
  <span class="k">public</span><span class="o">:</span>
   <span class="c1">// ... 省略构造函数等一堆方法</span>
@@ -254,7 +256,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">上面的例子完整的代码见 <a class="reference external" href="https://github.com/fpg2012/totem_oop/blob/master/examples/example1.cpp">github</a></p>
+<p class="last">上面的例子完整的代码见 <a class="reference external" href="https://github.com/fpg2012/totem_oop/blob/master/examples/example1.cc">github</a></p>
 </div>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
@@ -331,6 +333,8 @@
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="1-3.html" class="btn btn-neutral float-right" title="又是构造函数和析构函数" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="1-1.html" class="btn btn-neutral" title="面向对象起步" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

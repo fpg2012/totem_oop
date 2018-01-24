@@ -75,7 +75,7 @@ this
 
 .. code:: c++
 
-    // 课程类，由于Class和关键字class太像，所以用MyClass取而代之
+    // 课程类
     class Course {
      public:
       // ... 省略构造函数等一堆方法
@@ -160,7 +160,7 @@ this
     
     上面的例子完整的代码见 github_
 
-    .. _github: https://github.com/fpg2012/totem_oop/blob/master/examples/example1.cpp
+    .. _github: https://github.com/fpg2012/totem_oop/blob/master/examples/example1.cc
 
 ..
 
